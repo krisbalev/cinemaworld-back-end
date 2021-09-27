@@ -3,24 +3,14 @@ services:
   - docker:dind
 
 stages:
-  - clean
   - assemble
   - test
 
-clean:
+assemble:
   image: gradle:latest
-  stage: clean
+  stage: assemble
   script:
-    - gradle clean
-  artifacts:
-    paths:
-      - build/libs/*.jar
-
-build:
-  image: gradle:latest
-  stage: build
-  script:
-    - gradle build
+    - ./gradlew assemble
   artifacts:
     paths:
       - build/libs/*.jar
@@ -29,16 +19,9 @@ test:
   image: gradle:latest
   stage: test
   script:
-    - gradle test
-  artifacts:
-    paths:
-      - build/libs/*.jar  
-
-assemble:
-  image: gradle:latest
-  stage: assemble
-  script:
-    - gradle assemble
+    - ./gradlew test
+  dependencies:
+    - assemble
   artifacts:
     paths:
       - build/libs/*.jar
