@@ -22,8 +22,6 @@ public class MoviesController {
 
         if (name.isPresent()) {
             movies = fakeDataStore.getMovieByName(name.get());
-        } else {
-            movies = fakeDataStore.getAllMovies();
         }
 
         if (movies != null) {
