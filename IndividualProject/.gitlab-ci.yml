@@ -4,10 +4,9 @@ services:
 
 stages:
   - clean
-  - build
-  - test
   - assemble
-  
+  - test
+
 clean:
   image: gradle:latest
   stage: clean
