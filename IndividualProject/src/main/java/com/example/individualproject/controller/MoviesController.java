@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin("http://localhost:3000")
 @RequestMapping("/movies")
 public class MoviesController {
 
@@ -17,11 +18,14 @@ public class MoviesController {
 
 
     @GetMapping()
-    public ResponseEntity<List<Movie>> getAllMovies(@RequestParam(value = "name") Optional<String> name) {
+    public ResponseEntity<List<Movie>> getAllMovies(@RequestParam(value = "title") Optional<String> title) {
         List<Movie> movies = null;
 
-        if (name.isPresent()) {
-            movies = fakeDataStore.getMovieByName(name.get());
+        if (title.isPresent()) {
+            movies = fakeDataStore.getMovieByTitle(title.get());
+        }
+        else{
+            movies = fakeDataStore.getAllMovies();
         }
 
         if (movies != null) {

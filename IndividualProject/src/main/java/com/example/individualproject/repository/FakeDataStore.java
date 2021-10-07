@@ -11,7 +11,7 @@ public class FakeDataStore {
 
     public FakeDataStore(){
         Movie venom = new Movie("Venom", "04.10.2018", "dummy desc", 1);
-        Movie avengers = new Movie("The Avengers", "23.04.2012", "dummy desc", 2);
+        Movie avengers = new Movie("Avengers", "23.04.2012", "dummy desc", 2);
         Movie split = new Movie("Split","26.09.2016", "dummy desc", 3);
 
         movieList.add(venom);
@@ -21,10 +21,10 @@ public class FakeDataStore {
 
     public List<Movie> getAllMovies(){ return this.movieList; }
 
-    public List<Movie> getMovieByName(String name) {
+    public List<Movie> getMovieByTitle(String name) {
         List<Movie> filtered = new ArrayList<>();
         for (Movie m : movieList) {
-            if (m.getName().equals(name)) {
+            if (m.getTitle().equals(name)) {
                 filtered.add(m);
             }
         }
