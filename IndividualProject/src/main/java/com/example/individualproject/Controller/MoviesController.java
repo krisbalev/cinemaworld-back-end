@@ -1,8 +1,7 @@
-package com.example.individualproject.controller;
+package com.example.individualproject.Controller;
 
-import com.example.individualproject.model.Movie;
-import com.example.individualproject.repository.FakeDataStore;
-import org.apache.coyote.Response;
+import com.example.individualproject.Model.Movie;
+import com.example.individualproject.Repository.FakeDataStore;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

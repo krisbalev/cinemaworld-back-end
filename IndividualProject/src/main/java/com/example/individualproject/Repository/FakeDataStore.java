@@ -1,9 +1,8 @@
-package com.example.individualproject.repository;
+package com.example.individualproject.Repository;
 
-import com.example.individualproject.model.Movie;
+import com.example.individualproject.Model.Movie;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class FakeDataStore {

@@ -1,6 +1,8 @@
-package com.example.individualproject.model;
+package com.example.individualproject.Model;
 
-public class Movie {
+import com.example.individualproject.ServiceInterface.IMovie;
+
+public class Movie implements IMovie {
     private String title;
     private String releaseDate;
     private String description;
