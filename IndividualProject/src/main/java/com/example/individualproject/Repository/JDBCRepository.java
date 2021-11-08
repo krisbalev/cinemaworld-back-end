@@ -1,4 +1,4 @@
-package com.example.projectbackend.Repository;
+package com.example.individualproject.Repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;

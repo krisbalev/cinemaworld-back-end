@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
-public class MovieDalJDBC extends com.example.projectbackend.Repository.JDBCRepository implements IMovieDAL {
+public class MovieDalJDBC extends com.example.individualproject.Repository.JDBCRepository implements IMovieDAL {
 
     @Override
     public List<IMovie> getAllMovies(){
