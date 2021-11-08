@@ -23,6 +23,9 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.5.5'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.5.5'
+    runtimeOnly 'mysql:mysql-connector-java'
 }
 test {
     useJUnitPlatform()

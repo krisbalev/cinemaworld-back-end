@@ -1,50 +1,31 @@
 package com.example.individualproject.Controller;
 
-import com.example.individualproject.Model.Movie;
-import com.example.individualproject.Repository.FakeDataStore;
+import com.example.individualproject.ServiceInterface.IMovie;
+import com.example.individualproject.ServiceInterface.IMovieService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@CrossOrigin("http://localhost:3000")
+//@CrossOrigin("http://localhost:3000")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/movies")
 public class MoviesController {
 
-    private static final FakeDataStore fakeDataStore = new FakeDataStore();
+    @Autowired
+    private IMovieService movieService;
 
 
-    @GetMapping()
-    public ResponseEntity<List<Movie>> getAllMovies(@RequestParam(value = "title") Optional<String> title) {
-        List<Movie> movies = null;
-
-        if (title.isPresent()) {
-            movies = fakeDataStore.getMovieByTitle(title.get());
-        }
-        else{
-            movies = fakeDataStore.getAllMovies();
-        }
-
-        if (movies != null) {
-            return ResponseEntity.ok().body(movies);
-        }
-        else{
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping
+    public ResponseEntity<List<IMovie>> getAllMovies() {
+       return this.movieService.returnAllMovies();
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<Movie> getMovieById(@PathVariable(value = "id") int id){
-        Movie movie = fakeDataStore.getMovie(id);
-
-        if (movie != null){
-            return ResponseEntity.ok().body(movie);
-        }
-        else{
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping("/{id}")
+    public ResponseEntity<IMovie> getMovieById(@PathVariable(value = "id") int id){
+        return this.movieService.returnMovieById(id);
     }
 
 }

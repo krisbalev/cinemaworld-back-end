@@ -1,30 +1,33 @@
 package com.example.individualproject.Model;
 
 import com.example.individualproject.ServiceInterface.IMovie;
+import lombok.Getter;
+import lombok.Setter;
+import org.apache.tomcat.jni.Local;
+
+import java.time.LocalDate;
+import java.util.Date;
 
 public class Movie implements IMovie {
-    private String title;
-    private String releaseDate;
-    private String description;
+
+    @Getter @Setter
     private int id;
 
-    public Movie(String title, String release, String description, int id){
+    @Getter @Setter
+    private String title;
+
+    @Getter @Setter
+    private Date releaseDate;
+
+    @Getter @Setter
+    private String description;
+
+    public Movie(int id,String title, String description, Date releaseDate){
         this.title = title;
-        this.releaseDate = release;
+        this.releaseDate = releaseDate;
         this.description = description;
         this.id = id;
     }
-
-    public String getTitle() { return this.title; }
-    public void setTitle(String title) { this.title = title; }
-
-    public String getReleaseDate() { return this.releaseDate; }
-    public void setReleaseDate(String releaseDate) { this.releaseDate = releaseDate; }
-
-    public String getDescription() { return this.description; }
-    public void setDescription(String description) { this.description = description; }
-
-    public int getId() { return this.id; }
 
     @Override
     public String toString() {
