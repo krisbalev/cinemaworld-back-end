@@ -1,3 +1,7 @@
+/**
+ * @author Kristiyan Balev
+ */
+
 package com.example.individualproject.Model;
 
 import com.example.individualproject.ServiceInterface.IMovie;
@@ -28,6 +32,8 @@ public class Movie implements IMovie {
         this.description = description;
         this.id = id;
     }
+
+    public Movie() {}
 
     @Override
     public String toString() {
