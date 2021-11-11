@@ -12,8 +12,3 @@ test:
   stage: test
   script:
     - gradle test
-
-deploy:
-  stage: deploy
-  script:
-    - gradle deploy
