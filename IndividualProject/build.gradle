@@ -26,6 +26,9 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.5.5'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.5.5'
     runtimeOnly 'mysql:mysql-connector-java'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'com.auth0:java-jwt:3.11.0'
 }
 test {
     useJUnitPlatform()
