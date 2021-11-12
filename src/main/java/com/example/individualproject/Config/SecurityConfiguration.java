@@ -23,7 +23,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.POST, AuthenticationConfigConstants.SIGN_UP_URL).permitAll()
                 //ROLE BASED AUTHENTICATION START
-                .antMatchers("/account").hasAnyAuthority("USER")
+                .antMatchers("/user").hasAnyAuthority("USER")
+                .antMatchers("/movies/**").permitAll()
 //                .antMatchers("/account").permitAll() // HAS TO CHANGE ------------------
 //            .antMatchers("/api/library/author/**").hasAnyAuthority("ADMIN")
 //            .antMatchers("/api/library/member/**").hasAnyAuthority("ADMIN")

@@ -17,7 +17,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserService implements IUserService {
 
-    public List<IUser> users;
     private final IUserDAL dal;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 

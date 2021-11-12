@@ -11,19 +11,13 @@ import org.apache.tomcat.jni.Local;
 
 import java.time.LocalDate;
 import java.util.Date;
-
+@Getter
+@Setter
 public class Movie implements IMovie {
 
-    @Getter @Setter
     private int id;
-
-    @Getter @Setter
     private String title;
-
-    @Getter @Setter
     private Date releaseDate;
-
-    @Getter @Setter
     private String description;
 
     public Movie(int id,String title, String description, Date releaseDate){

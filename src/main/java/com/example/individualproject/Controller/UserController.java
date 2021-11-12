@@ -16,8 +16,6 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
 
-    //private IUserService userService = new UserService(new UserDalJDBC());
-
     @Autowired
     private IUserService userService = new UserService(new UserDalJDBC());
 
