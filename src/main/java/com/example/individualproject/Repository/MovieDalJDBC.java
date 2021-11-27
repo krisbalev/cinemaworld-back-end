@@ -39,14 +39,25 @@ public class MovieDalJDBC extends com.example.individualproject.Repository.JDBCR
                 IMovie movie = new Movie(id, title, description, releaseDate);
                 movies.add(movie);
             }
+        }
 
-            connection.commit();
-            connection.close();
+        catch (SQLException throwable) {
 
-        } catch (SQLException throwable) {System.out.println("Ne sum swyrzan");}
+                System.out.println("Can't get all movies");
+            }
 
-        return movies;
-    }
+        finally {
+                try{
+                    connection.commit();
+                    connection.close();
+                }
+                catch (SQLException throwable){
+                    System.out.println("Can't close connection");
+                }
+            }
+
+            return movies;
+        }
 
     @Override
     public IMovie getMovieById(int id) {
@@ -67,12 +78,52 @@ public class MovieDalJDBC extends com.example.individualproject.Repository.JDBCR
 
             movie = new Movie(movieId, title, description, releaseDate);
 
-            connection.commit();
-            connection.close();
+        } catch (SQLException throwable) {
+            System.out.println("Can't get movie by id");
 
-        } catch (SQLException throwable) {System.out.println("Ne sum swyrzan");}
-
+        }
+        finally {
+            try{
+                connection.commit();
+                connection.close();
+            }
+            catch (SQLException throwable){
+                System.out.println("Can't close connection");
+            }
+        }
         return movie;
+    }
+
+    @Override
+    public String getPhotoByMovieId(int id) {
+
+        String sql = "SELECT * from movie_photos WHERE movie_ID = ?";
+        Connection connection = this.getDatabaseConnection();
+        String path = "";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
+
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+
+            path = resultSet.getString("path");
+
+
+        }
+        catch (SQLException throwable) {System.out.println("Can't get photo of movie");}
+
+        finally {
+            try{
+                connection.commit();
+                connection.close();
+            }
+            catch (SQLException throwable){
+                System.out.println("Can't close connection");
+            }
+        }
+
+        return path;
     }
 
 }

@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface IMovieService {
     ResponseEntity<List<IMovie>> returnAllMovies();
     ResponseEntity<IMovie> returnMovieById (int id);
+    String ReturnPhotoOfMovieByID(int id);
 }

@@ -45,4 +45,18 @@ public class MovieService implements IMovieService {
         }
     }
 
+    @Override
+    public String ReturnPhotoOfMovieByID(int id)
+    {
+        String path = dal.getPhotoByMovieId(id);
+        if (path == "")
+        {
+            return path;
+        }
+        else
+        {
+            return path;
+        }
+    }
+
 }

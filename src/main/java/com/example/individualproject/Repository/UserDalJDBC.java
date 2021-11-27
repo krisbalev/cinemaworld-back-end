@@ -37,10 +37,16 @@ public class UserDalJDBC extends JDBCRepository implements IUserDAL {
                 accounts.add(account);
             }
 
-            connection.commit();
-            connection.close();
-
         } catch (SQLException throwable) {System.out.println("Ne sum swyrzan");}
+        finally {
+            try{
+                connection.commit();
+                connection.close();
+            }
+            catch (SQLException throwable){
+                System.out.println("Can't close connection");
+            }
+        }
 
         return accounts;
     }
@@ -69,10 +75,16 @@ public class UserDalJDBC extends JDBCRepository implements IUserDAL {
             account = new UserAccount(accountId, username, password,email,firstName,lastName);
 
 
-            connection.commit();
-            connection.close();
-
-        } catch (SQLException throwable) {System.out.println("Ne sum swyrzan");}
+        } catch (SQLException throwable) {System.out.println("Can't get account by id");}
+        finally {
+            try{
+                connection.commit();
+                connection.close();
+            }
+            catch (SQLException throwable){
+                System.out.println("Can't close connection");
+            }
+        }
 
         return account;
     }
@@ -100,18 +112,23 @@ public class UserDalJDBC extends JDBCRepository implements IUserDAL {
 
             account = new UserAccount(accountId, accountName, password,email,firstName,lastName);
 
-
-            connection.commit();
-            connection.close();
-
-        } catch (SQLException throwable) {System.out.println("Ne sum swyrzan");}
+        } catch (SQLException throwable) {System.out.println("Can't get account by username");}
+        finally {
+            try{
+                connection.commit();
+                connection.close();
+            }
+            catch (SQLException throwable){
+                System.out.println("Can't close connection");
+            }
+        }
 
         return account;
     }
 
 
     @Override
-    public void addUser(IUser account) {
+    public boolean addUser(IUser account) {
         Connection connection = this.getDatabaseConnection();
         String sql = "INSERT INTO user (`ID`, `first_name`, `last_name`, `username`, `password`, `email`) VALUES (NULL, ?, ?, ?, ?, ?);";
 
@@ -125,10 +142,17 @@ public class UserDalJDBC extends JDBCRepository implements IUserDAL {
 
             statement.executeUpdate();
 
-            connection.commit();
-            connection.close();
-
         } catch (SQLException throwable) {}
+        finally {
+            try{
+                connection.commit();
+                connection.close();
+            }
+            catch (SQLException throwable){
+                System.out.println("Can't close connection");
+            }
+        }
+        return false;
     }
 
 }

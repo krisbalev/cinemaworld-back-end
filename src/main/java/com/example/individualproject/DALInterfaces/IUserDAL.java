@@ -8,5 +8,5 @@ public interface IUserDAL {
     List<IUser> getAllUsers();
     IUser getUserById(int id);
     IUser getUserByUsername(String username);
-    void addUser(IUser user);
+    boolean addUser(IUser user);
 }

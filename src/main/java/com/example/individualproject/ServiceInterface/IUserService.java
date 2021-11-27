@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface IUserService {
     ResponseEntity<IUser> ReturnUserByID(int id);
-    void UserRegistration(UserCreateRequest userCreateRequest);
+    ResponseEntity<IUser> ReturnUserByUsername(String username);
+    boolean UserRegistration(UserCreateRequest userCreateRequest);
     ResponseEntity<List<IUser>>ReturnAllUsers();
 }

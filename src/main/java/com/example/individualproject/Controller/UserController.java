@@ -7,6 +7,8 @@ import com.example.individualproject.ServiceInterface.IUser;
 import com.example.individualproject.ServiceInterface.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,10 +27,13 @@ public class UserController {
         return userService.ReturnAllUsers();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<IUser> GetAccountById(@PathVariable(value = "id") int id)
+    @GetMapping("/account")
+    public ResponseEntity<IUser> GetAccountByUsername()
     {
-        return userService.ReturnUserByID(id);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        return userService.ReturnUserByUsername(currentPrincipalName);
     }
 
     @PostMapping("/register")

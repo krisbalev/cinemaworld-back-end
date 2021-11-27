@@ -40,9 +40,8 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public ResponseEntity<IUser> ReturnUserByID(int id)
-    {
-        IUser account = dal.getUserById(id);
+    public ResponseEntity<IUser> ReturnUserByUsername(String username){
+        IUser account = dal.getUserByUsername(username);
         if (account == null)
         {
             return ResponseEntity.notFound().build();
@@ -53,9 +52,19 @@ public class UserService implements IUserService {
         }
     }
 
+    @Override
+    public ResponseEntity<IUser> ReturnUserByID(int id) {
+        IUser account = dal.getUserById(id);
+        if (account == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok().body(account);
+        }
+    }
+
 
     @Override
-    public void UserRegistration(UserCreateRequest userCreateRequest) {
+    public boolean UserRegistration(UserCreateRequest userCreateRequest) {
         IUser user;
         Optional<IUser> byUsername = Optional.ofNullable(dal.getUserByUsername(userCreateRequest.getUsername()));
         if (byUsername.isPresent()) {
@@ -68,5 +77,6 @@ public class UserService implements IUserService {
                 userCreateRequest.getFirstName(),
                 userCreateRequest.getLastName());
         dal.addUser(user);
+        return true;
     }
 }
