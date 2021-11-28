@@ -126,4 +126,36 @@ public class MovieDalJDBC extends com.example.individualproject.Repository.JDBCR
         return path;
     }
 
+    @Override
+    public String getPosterByMovieId(int id) {
+
+        String sql = "SELECT * from movie_posters WHERE movie_ID = ?";
+        Connection connection = this.getDatabaseConnection();
+        String path = "";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
+
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+
+            path = resultSet.getString("path");
+
+
+        }
+        catch (SQLException throwable) {System.out.println("Can't get photo of movie");}
+
+        finally {
+            try{
+                connection.commit();
+                connection.close();
+            }
+            catch (SQLException throwable){
+                System.out.println("Can't close connection");
+            }
+        }
+
+        return path;
+    }
+
 }

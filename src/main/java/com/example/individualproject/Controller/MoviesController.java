@@ -39,10 +39,7 @@ public class MoviesController {
         String filename =  movieService.ReturnPhotoOfMovieByID(id);
 
         ByteArrayResource inputStream = null;
-        //Path root = Paths.get("photos");
 
-        // filename =  "C:\\Users\\Jordan\\Desktop\\Group project semester 3\\s05-group-3\\Project-back-end\\photos\\"+ filename;
-        //   filename =  "..\\..\\..\\..\\..\\..\\Project-back-end\\photos\\"+ filename;
         try{
             String direcotry = new File("./" ).getCanonicalPath() + "/photos/" + filename;
             ;
@@ -56,4 +53,23 @@ public class MoviesController {
                 .body(inputStream);
     }
 
+    @GetMapping("/poster/{id}")
+    public ResponseEntity<Resource> GetPosterMovieById(@PathVariable(value = "id") int id)
+    {
+        String filename =  movieService.ReturnPosterOfMovieByID(id);
+
+        ByteArrayResource inputStream = null;
+
+        try{
+            String direcotry = new File("./" ).getCanonicalPath() + "/photos/" + filename;
+            ;
+            inputStream = new ByteArrayResource(Files.readAllBytes(Paths.get(
+                    direcotry)));
+        }
+        catch (Exception e){}
+
+        return ResponseEntity.ok()
+                .contentLength(inputStream.contentLength())
+                .body(inputStream);
+    }
 }

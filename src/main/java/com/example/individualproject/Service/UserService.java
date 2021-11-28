@@ -3,6 +3,7 @@ package com.example.individualproject.Service;
 import com.example.individualproject.DALInterfaces.IUserDAL;
 import com.example.individualproject.Model.UserAccount;
 import com.example.individualproject.Model.request.UserCreateRequest;
+import com.example.individualproject.Model.request.UserEditDetailsRequest;
 import com.example.individualproject.ServiceInterface.IUser;
 import com.example.individualproject.ServiceInterface.IUserService;
 import lombok.RequiredArgsConstructor;
@@ -78,5 +79,17 @@ public class UserService implements IUserService {
                 userCreateRequest.getLastName());
         dal.addUser(user);
         return true;
+    }
+
+    @Override
+    public void EditUserDetails(String username, UserEditDetailsRequest userEditDetailsRequest){
+        IUser user = GetUserByUsername(username);
+        int id = user.getId();
+
+        if (user != null) {
+            dal.editUserDetails(id, userEditDetailsRequest.getEmail(), userEditDetailsRequest.getFirstName(), userEditDetailsRequest.getLastName());
+        } else {
+            throw new RuntimeException("User not found.");
+        }
     }
 }

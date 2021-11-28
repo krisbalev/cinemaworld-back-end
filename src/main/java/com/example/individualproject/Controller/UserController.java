@@ -1,6 +1,7 @@
 package com.example.individualproject.Controller;
 
 import com.example.individualproject.Model.request.UserCreateRequest;
+import com.example.individualproject.Model.request.UserEditDetailsRequest;
 import com.example.individualproject.Repository.UserDalJDBC;
 import com.example.individualproject.Service.UserService;
 import com.example.individualproject.ServiceInterface.IUser;
@@ -40,6 +41,15 @@ public class UserController {
     public ResponseEntity UserRegistration(@RequestBody UserCreateRequest userCreateRequest) {
 
         userService.UserRegistration(userCreateRequest);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/edit-details")
+    public ResponseEntity EditUserDetails(@RequestBody UserEditDetailsRequest userEditDetailsRequest){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        userService.EditUserDetails(currentPrincipalName, userEditDetailsRequest);
         return ResponseEntity.ok().build();
     }
 

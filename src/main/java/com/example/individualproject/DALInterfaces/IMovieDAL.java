@@ -8,4 +8,5 @@ public interface IMovieDAL {
     List<IMovie> getAllMovies();
     IMovie getMovieById(int id);
     String getPhotoByMovieId(int id);
+    String getPosterByMovieId(int id);
 }

@@ -9,4 +9,5 @@ public interface IUserDAL {
     IUser getUserById(int id);
     IUser getUserByUsername(String username);
     boolean addUser(IUser user);
+    void editUserDetails(int id, String email, String firstName, String lastName);
 }

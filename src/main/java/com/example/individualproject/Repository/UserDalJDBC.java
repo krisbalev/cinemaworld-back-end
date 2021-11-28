@@ -155,4 +155,34 @@ public class UserDalJDBC extends JDBCRepository implements IUserDAL {
         return false;
     }
 
+    @Override
+    public void editUserDetails(int id, String email, String firstName, String lastName) {
+        Connection connection = this.getDatabaseConnection();
+        String sql = "UPDATE `user` SET `email` = ?, `first_name` = ?, `last_name` = ? WHERE `user`.`ID` = ?";
+
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, email);
+            statement.setString(2, firstName);
+            statement.setString(3, lastName);
+
+            statement.setInt(4, id);
+
+            statement.executeUpdate();
+
+
+
+        } catch (SQLException throwable) {}
+        finally {
+            try{
+                connection.commit();
+                connection.close();
+            }
+            catch (SQLException throwable){
+                System.out.println("Can't close connection");
+            }
+        }
+    }
+
 }
