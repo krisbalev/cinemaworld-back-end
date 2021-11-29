@@ -1,7 +1,6 @@
 stages:
   - assemble
   - test
-  - deploy
 
 assemble:
   stage: assemble
