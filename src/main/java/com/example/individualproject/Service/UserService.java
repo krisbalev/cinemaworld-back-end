@@ -86,9 +86,9 @@ public class UserService implements IUserService {
         IUser user = GetUserByUsername(username);
         int id = user.getId();
 
-        if (user != null) {
+        try{
             dal.editUserDetails(id, userEditDetailsRequest.getEmail(), userEditDetailsRequest.getFirstName(), userEditDetailsRequest.getLastName());
-        } else {
+        } catch (Exception e){
             throw new RuntimeException("User not found.");
         }
     }

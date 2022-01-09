@@ -5,6 +5,7 @@ import com.example.individualproject.Model.UserAccount;
 import com.example.individualproject.ServiceInterface.IUser;
 import org.springframework.stereotype.Repository;
 
+import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -18,10 +19,11 @@ public class UserDalJDBC extends JDBCRepository implements IUserDAL {
         ArrayList<IUser> accounts = new ArrayList<IUser>();
         Connection connection = this.getDatabaseConnection();
         String sql = "SELECT * from user";
+        Statement statement = null;
 
         try {
 
-            Statement statement = connection.createStatement();
+            statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
 
 
@@ -40,6 +42,9 @@ public class UserDalJDBC extends JDBCRepository implements IUserDAL {
         } catch (SQLException throwable) {System.out.println("Ne sum swyrzan");}
         finally {
             try{
+                if(statement != null ) {
+                    statement.close();
+                }
                 connection.commit();
                 connection.close();
             }
@@ -57,9 +62,10 @@ public class UserDalJDBC extends JDBCRepository implements IUserDAL {
         String sql = "SELECT * from user WHERE ID = ?" ;
         Connection connection = this.getDatabaseConnection();
         IUser account = null;
+        PreparedStatement statement = null;
         try {
 
-            PreparedStatement statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
 
             ResultSet resultSet = statement.executeQuery();
@@ -78,6 +84,9 @@ public class UserDalJDBC extends JDBCRepository implements IUserDAL {
         } catch (SQLException throwable) {System.out.println("Can't get account by id");}
         finally {
             try{
+                if(statement != null ) {
+                    statement.close();
+                }
                 connection.commit();
                 connection.close();
             }
@@ -95,9 +104,10 @@ public class UserDalJDBC extends JDBCRepository implements IUserDAL {
         String sql = "SELECT * from user WHERE username = ?" ;
         Connection connection = this.getDatabaseConnection();
         IUser account = null;
+        PreparedStatement statement = null;
         try {
 
-            PreparedStatement statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement(sql);
             statement.setString(1, username);
 
             ResultSet resultSet = statement.executeQuery();
@@ -115,6 +125,9 @@ public class UserDalJDBC extends JDBCRepository implements IUserDAL {
         } catch (SQLException throwable) {System.out.println("Can't get account by username");}
         finally {
             try{
+                if(statement != null ) {
+                    statement.close();
+                }
                 connection.commit();
                 connection.close();
             }
@@ -131,9 +144,9 @@ public class UserDalJDBC extends JDBCRepository implements IUserDAL {
     public boolean addUser(IUser account) {
         Connection connection = this.getDatabaseConnection();
         String sql = "INSERT INTO user (`ID`, `first_name`, `last_name`, `username`, `password`, `email`) VALUES (NULL, ?, ?, ?, ?, ?);";
-
+        PreparedStatement statement = null;
         try {
-            PreparedStatement statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement(sql);
             statement.setString(1, account.getFirstName());
             statement.setString(2, account.getLastName());
             statement.setString(3, account.getUsername());
@@ -145,6 +158,9 @@ public class UserDalJDBC extends JDBCRepository implements IUserDAL {
         } catch (SQLException throwable) {}
         finally {
             try{
+                if(statement != null ) {
+                    statement.close();
+                }
                 connection.commit();
                 connection.close();
             }
@@ -159,10 +175,10 @@ public class UserDalJDBC extends JDBCRepository implements IUserDAL {
     public void editUserDetails(int id, String email, String firstName, String lastName) {
         Connection connection = this.getDatabaseConnection();
         String sql = "UPDATE `user` SET `email` = ?, `first_name` = ?, `last_name` = ? WHERE `user`.`ID` = ?";
-
+        PreparedStatement statement = null;
 
         try {
-            PreparedStatement statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement(sql);
             statement.setString(1, email);
             statement.setString(2, firstName);
             statement.setString(3, lastName);
@@ -176,6 +192,9 @@ public class UserDalJDBC extends JDBCRepository implements IUserDAL {
         } catch (SQLException throwable) {}
         finally {
             try{
+                if(statement != null ) {
+                    statement.close();
+                }
                 connection.commit();
                 connection.close();
             }

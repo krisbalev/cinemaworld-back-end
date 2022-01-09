@@ -1,10 +1,12 @@
 package com.example.individualproject.Config;
 
+import com.example.individualproject.Filter.CORSFilter;
 import com.example.individualproject.Filter.JWTAuthenticationFilter;
 import com.example.individualproject.Filter.JWTAuthorizationFilter;
 import com.example.individualproject.Service.AuthenticationUserDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpRequest;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -21,21 +23,34 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final AuthenticationUserDetailService authenticationUserDetailService;
 
     @Override protected void configure(HttpSecurity http) throws Exception {
-        http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()).and().csrf().disable().authorizeRequests()
-//        http.cors().and().csrf().disable().authorizeRequests()
+//       http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()).and().csrf().disable().authorizeRequests()
+        http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.POST, AuthenticationConfigConstants.SIGN_UP_URL).permitAll()
+                .antMatchers(HttpMethod.OPTIONS).permitAll()
                 //ROLE BASED AUTHENTICATION START
                 .antMatchers("/user/*").hasAnyAuthority("USER")
+//                .antMatchers("/user/*").permitAll()
                 .antMatchers("/movies/**").permitAll()
-                .antMatchers("/movies/photo/**").permitAll()
-//                .antMatchers("/account").permitAll() // HAS TO CHANGE ------------------
-//            .antMatchers("/api/library/author/**").hasAnyAuthority("ADMIN")
-//            .antMatchers("/api/library/member/**").hasAnyAuthority("ADMIN")
-                //ROLE BASED AUTHENTICATION END
+                .antMatchers("/auth/*").permitAll()
+                .antMatchers("/theatre/**").permitAll()
+//                .antMatchers("/reservations").permitAll() //HAS TO BE ADMIN ONLY
+                .antMatchers("/reservations/*").hasAnyAuthority("USER")
+
+//                .antMatchers("/topic/**").permitAll()
+//                .antMatchers("/notification").permitAll()
+                .antMatchers("/api/**").permitAll()
+                .antMatchers("/ws/**").permitAll()
+                .antMatchers("/app/**").permitAll()
                 .anyRequest().authenticated()
+
                 .and()
+//                .oauth2Login()
+//                .redirectionEndpoint().baseUri("/auth").and()
+//                .and()
+
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))
                 .addFilter(new JWTAuthorizationFilter(authenticationManager()))
+
                 // this disables session creation on Spring Security
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }

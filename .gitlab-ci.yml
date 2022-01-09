@@ -1,13 +1,48 @@
-stages:
-  - assemble
-  - test
+image: docker:latest
+services:
+  - docker:dind
 
-assemble:
-  stage: assemble
+stages:
+  - clean
+  - build
+  - test
+  - deploy
+
+clean:
+  image: gradle:latest
+  stage: clean
   script:
-    - gradle assemble
+    - gradle clean
+  artifacts:
+    paths:
+      - build/libs/*.jar
+
+build:
+  image: gradle:latest
+  stage: build
+  script:
+    - gradle build
+  artifacts:
+    paths:
+      - build/libs/*.jar
 
 test:
+  image: gradle:latest
   stage: test
   script:
     - gradle test
+  artifacts:
+    paths:
+      - build/libs/*.jar
+
+deploy:
+  image: gradle:latest
+  stage: deploy
+  script:
+    - docker run -p 8080:8080 springio/gs-spring-boot-docker
+  artifacts:
+    paths:
+      - build/libs/*.jar
+
+after_script:
+  - echo "End CI"

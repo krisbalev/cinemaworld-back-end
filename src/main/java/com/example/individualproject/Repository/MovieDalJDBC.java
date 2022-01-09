@@ -23,9 +23,11 @@ public class MovieDalJDBC extends com.example.individualproject.Repository.JDBCR
 
         String sql = "SELECT * from movies";
 
+        Statement statement = null;
+
         try {
 
-            Statement statement = connection.createStatement();
+            statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
 
 
@@ -48,6 +50,9 @@ public class MovieDalJDBC extends com.example.individualproject.Repository.JDBCR
 
         finally {
                 try{
+                    if(statement != null ) {
+                        statement.close();
+                    }
                     connection.commit();
                     connection.close();
                 }
@@ -64,8 +69,10 @@ public class MovieDalJDBC extends com.example.individualproject.Repository.JDBCR
         String sql = "SELECT * from movies WHERE id = ?";
         Connection connection = this.getDatabaseConnection();
         IMovie movie = null;
+
+        PreparedStatement statement = null;
         try {
-            PreparedStatement statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
 
             ResultSet resultSet = statement.executeQuery();
@@ -84,6 +91,9 @@ public class MovieDalJDBC extends com.example.individualproject.Repository.JDBCR
         }
         finally {
             try{
+                if(statement != null ) {
+                    statement.close();
+                }
                 connection.commit();
                 connection.close();
             }
@@ -100,8 +110,9 @@ public class MovieDalJDBC extends com.example.individualproject.Repository.JDBCR
         String sql = "SELECT * from movie_photos WHERE movie_ID = ?";
         Connection connection = this.getDatabaseConnection();
         String path = "";
+        PreparedStatement statement = null;
         try {
-            PreparedStatement statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
 
             ResultSet resultSet = statement.executeQuery();
@@ -115,6 +126,9 @@ public class MovieDalJDBC extends com.example.individualproject.Repository.JDBCR
 
         finally {
             try{
+                if(statement != null ) {
+                    statement.close();
+                }
                 connection.commit();
                 connection.close();
             }
@@ -132,8 +146,9 @@ public class MovieDalJDBC extends com.example.individualproject.Repository.JDBCR
         String sql = "SELECT * from movie_posters WHERE movie_ID = ?";
         Connection connection = this.getDatabaseConnection();
         String path = "";
+        PreparedStatement statement = null;
         try {
-            PreparedStatement statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
 
             ResultSet resultSet = statement.executeQuery();
@@ -147,6 +162,9 @@ public class MovieDalJDBC extends com.example.individualproject.Repository.JDBCR
 
         finally {
             try{
+                if(statement != null ) {
+                    statement.close();
+                }
                 connection.commit();
                 connection.close();
             }
