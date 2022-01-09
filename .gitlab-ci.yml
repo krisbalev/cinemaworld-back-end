@@ -39,7 +39,7 @@ deploy:
   image: gradle:latest
   stage: deploy
   script:
-    - docker run -p 8080:8080 springio/gs-spring-boot-docker
+    - docker build -t springio/gs-spring-boot-docker .
   artifacts:
     paths:
       - build/libs/*.jar
