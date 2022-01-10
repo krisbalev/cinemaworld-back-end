@@ -17,7 +17,7 @@ import java.util.List;
 public class ReservationController {
 
     @Autowired
-    public IReservationService reservationService;
+    private IReservationService reservationService;
 
     @GetMapping("/all")
     public ResponseEntity<List<IReservation>> getAllReservations() { return this.reservationService.returnAllReservations(); }

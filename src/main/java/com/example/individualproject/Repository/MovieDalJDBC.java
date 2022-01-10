@@ -21,14 +21,12 @@ public class MovieDalJDBC extends com.example.individualproject.Repository.JDBCR
 
         Connection connection = this.getDatabaseConnection();
 
-        String sql = "SELECT * from movies";
-
         Statement statement = null;
 
         try {
 
             statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
+            ResultSet resultSet = statement.executeQuery("SELECT * from movies");
 
 
             while (resultSet.next()) {
@@ -66,13 +64,12 @@ public class MovieDalJDBC extends com.example.individualproject.Repository.JDBCR
 
     @Override
     public IMovie getMovieById(int id) {
-        String sql = "SELECT * from movies WHERE id = ?";
         Connection connection = this.getDatabaseConnection();
         IMovie movie = null;
 
         PreparedStatement statement = null;
         try {
-            statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement("SELECT * from movies WHERE id = ?");
             statement.setInt(1, id);
 
             ResultSet resultSet = statement.executeQuery();
@@ -106,13 +103,11 @@ public class MovieDalJDBC extends com.example.individualproject.Repository.JDBCR
 
     @Override
     public String getPhotoByMovieId(int id) {
-
-        String sql = "SELECT * from movie_photos WHERE movie_ID = ?";
         Connection connection = this.getDatabaseConnection();
         String path = "";
         PreparedStatement statement = null;
         try {
-            statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement("SELECT * from movie_photos WHERE movie_ID = ?");
             statement.setInt(1, id);
 
             ResultSet resultSet = statement.executeQuery();
@@ -142,13 +137,11 @@ public class MovieDalJDBC extends com.example.individualproject.Repository.JDBCR
 
     @Override
     public String getPosterByMovieId(int id) {
-
-        String sql = "SELECT * from movie_posters WHERE movie_ID = ?";
         Connection connection = this.getDatabaseConnection();
         String path = "";
         PreparedStatement statement = null;
         try {
-            statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement("SELECT * from movie_posters WHERE movie_ID = ?");
             statement.setInt(1, id);
 
             ResultSet resultSet = statement.executeQuery();

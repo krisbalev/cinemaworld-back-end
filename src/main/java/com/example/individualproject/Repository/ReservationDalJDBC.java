@@ -19,14 +19,12 @@ public class ReservationDalJDBC extends JDBCRepository implements IReservationDA
 
         Connection connection = this.getDatabaseConnection();
 
-        String sql = "SELECT * from reservations";
-
         Statement statement = null;
 
         try {
 
             statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
+            ResultSet resultSet = statement.executeQuery("SELECT * from reservations");
 
 
             while (resultSet.next()) {
@@ -68,10 +66,9 @@ public class ReservationDalJDBC extends JDBCRepository implements IReservationDA
     @Override
     public void reserve(Reservation reservation){
         Connection connection = this.getDatabaseConnection();
-        String sql = "INSERT INTO `reservations` (`id`, `username`, `movie_name`, `date`, `time`, `tickets`, `theatre`) VALUES (NULL, ?, ?, ?, ?, ?, ?);";
         PreparedStatement statement = null;
         try{
-            statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement("INSERT INTO `reservations` (`id`, `username`, `movie_name`, `date`, `time`, `tickets`, `theatre`) VALUES (NULL, ?, ?, ?, ?, ?, ?);");
             statement.setString(1, reservation.getUsername());
             statement.setString(2, reservation.getMovieName());
             statement.setDate(3, reservation.getDate());
@@ -102,13 +99,11 @@ public class ReservationDalJDBC extends JDBCRepository implements IReservationDA
 
         Connection connection = this.getDatabaseConnection();
 
-        String sql = "SELECT * from reservations WHERE username = ? ORDER BY id desc";
-
         PreparedStatement statement = null;
 
         try {
 
-            statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement("SELECT * from reservations WHERE username = ? ORDER BY id desc");
             statement.setString(1, username);
             ResultSet resultSet = statement.executeQuery();
 

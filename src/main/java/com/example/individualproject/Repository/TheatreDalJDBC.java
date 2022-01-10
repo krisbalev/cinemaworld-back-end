@@ -21,14 +21,12 @@ public class TheatreDalJDBC extends JDBCRepository implements ITheatreDAL {
 
        Connection connection = this.getDatabaseConnection();
 
-       String sql = "SELECT * from theatres";
-
        Statement statement = null;
 
        try {
 
            statement = connection.createStatement();
-           ResultSet resultSet = statement.executeQuery(sql);
+           ResultSet resultSet = statement.executeQuery("SELECT * from theatres");
 
 
            while (resultSet.next()) {
@@ -64,13 +62,12 @@ public class TheatreDalJDBC extends JDBCRepository implements ITheatreDAL {
 
     @Override
     public ITheatre getTheatreById(int id) {
-        String sql = "SELECT * from theatres WHERE id = ?";
         Connection connection = this.getDatabaseConnection();
         ITheatre theatre = null;
 
         PreparedStatement statement = null;
         try {
-            statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement("SELECT * from theatres WHERE id = ?");
             statement.setInt(1, id);
 
             ResultSet resultSet = statement.executeQuery();
