@@ -42,15 +42,18 @@ public class MoviesController {
 
         try{
             String direcotry = new File("./" ).getCanonicalPath() + "/photos/" + filename;
-            ;
+
             inputStream = new ByteArrayResource(Files.readAllBytes(Paths.get(
                     direcotry)));
+            return ResponseEntity.ok()
+                    .contentLength(inputStream.contentLength())
+                    .body(inputStream);
         }
-        catch (Exception e){}
+        catch (Exception e){ e.getMessage(); }
 
-        return ResponseEntity.ok()
-                .contentLength(inputStream.contentLength())
-                .body(inputStream);
+        return ResponseEntity.notFound().build();
+
+
     }
 
     @GetMapping("/poster/{id}")
@@ -62,14 +65,23 @@ public class MoviesController {
 
         try{
             String direcotry = new File("./" ).getCanonicalPath() + "/photos/" + filename;
-            ;
+
             inputStream = new ByteArrayResource(Files.readAllBytes(Paths.get(
                     direcotry)));
-        }
-        catch (Exception e){}
+            return ResponseEntity.ok()
+                    .contentLength(inputStream.contentLength())
+                    .body(inputStream);
 
-        return ResponseEntity.ok()
-                .contentLength(inputStream.contentLength())
-                .body(inputStream);
+        }
+        catch (Exception e){ e.getMessage(); }
+
+        return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/add")
+    public ResponseEntity<IMovie> addMovie() {
+
+        return ResponseEntity.ok().build();
+    }
+
 }
