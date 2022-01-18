@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AdminController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">IndividualProject</a> &gt; <a href="index.source.html" class="el_package">com.example.individualproject.Controller</a> &gt; <span class="el_source">AdminController.java</span></div><h1>AdminController.java</h1><pre class="source lang-java linenums">package com.example.individualproject.Controller;
+
+import com.example.individualproject.Model.Theatre;
+import com.example.individualproject.Model.request.MovieCreateRequest;
+import com.example.individualproject.Model.request.TheatreCreateRequest;
+import com.example.individualproject.Model.request.TrailerCreateRequest;
+import com.example.individualproject.ServiceInterface.IMovie;
+import com.example.individualproject.ServiceInterface.IMovieService;
+import com.example.individualproject.ServiceInterface.ITheatre;
+import com.example.individualproject.ServiceInterface.ITheatreService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@CrossOrigin(origins = &quot;*&quot;, allowedHeaders = &quot;*&quot;)
+@RequestMapping(&quot;/admin&quot;)
+<span class="fc" id="L19">public class AdminController {</span>
+    @Autowired
+    private IMovieService movieService;
+
+    @Autowired
+    private ITheatreService theatreService;
+
+    @PostMapping(&quot;/add/movie&quot;)
+    public ResponseEntity&lt;IMovie&gt; addMovie(@RequestBody MovieCreateRequest movieCreateRequest) {
+<span class="fc" id="L28">        this.movieService.addMovie(movieCreateRequest);</span>
+
+<span class="fc" id="L30">        return ResponseEntity.ok().build();</span>
+    }
+
+    @PostMapping(&quot;/add/trailer&quot;)
+    public ResponseEntity&lt;IMovie&gt; addTrailer(@RequestBody TrailerCreateRequest trailerCreateRequest) {
+<span class="fc" id="L35">        this.movieService.addTrailer(trailerCreateRequest);</span>
+
+<span class="fc" id="L37">        return ResponseEntity.ok().build();</span>
+    }
+
+    @PostMapping(&quot;/add/theatre&quot;)
+    public ResponseEntity&lt;ITheatre&gt; addTheatre(@RequestBody TheatreCreateRequest theatreCreateRequest) {
+<span class="fc" id="L42">        this.theatreService.addTheatre(theatreCreateRequest);</span>
+
+<span class="fc" id="L44">        return ResponseEntity.ok().build();</span>
+    }
+
+    @PostMapping(&quot;/remove/movie/{id}&quot;)
+    public ResponseEntity removeMovie(@PathVariable(value = &quot;id&quot;) int id){
+<span class="fc" id="L49">        this.movieService.removeMovie(id);</span>
+
+<span class="fc" id="L51">        return ResponseEntity.ok().build();</span>
+    }
+
+    @PostMapping(&quot;/remove/theatre/{id}&quot;)
+    public ResponseEntity removeTheatre(@PathVariable(value = &quot;id&quot;) int id){
+<span class="fc" id="L56">        this.theatreService.removeTheatre(id);</span>
+
+<span class="fc" id="L58">        return ResponseEntity.ok().build();</span>
+    }
+
+    @PostMapping(&quot;/edit/movie&quot;)
+    public ResponseEntity editMovie(@RequestBody MovieCreateRequest movieCreateRequest){
+<span class="fc" id="L63">        this.movieService.editMovie(movieCreateRequest);</span>
+
+<span class="fc" id="L65">        return ResponseEntity.ok().build();</span>
+    }
+
+    @PostMapping(&quot;/edit/theatre&quot;)
+    public ResponseEntity editTheatre(@RequestBody TheatreCreateRequest theatreCreateRequest){
+<span class="fc" id="L70">        this.theatreService.editTheatre(theatreCreateRequest);</span>
+
+<span class="fc" id="L72">        return ResponseEntity.ok().build();</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

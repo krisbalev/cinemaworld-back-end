@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">IndividualProject</a> &gt; <a href="index.source.html" class="el_package">com.example.individualproject.Service</a> &gt; <span class="el_source">UserService.java</span></div><h1>UserService.java</h1><pre class="source lang-java linenums">package com.example.individualproject.Service;
+
+import com.example.individualproject.DALInterfaces.IUserDAL;
+import com.example.individualproject.Model.UserAccount;
+import com.example.individualproject.Model.request.UserCreateRequest;
+import com.example.individualproject.Model.request.UserEditDetailsRequest;
+import com.example.individualproject.ServiceInterface.IUser;
+import com.example.individualproject.ServiceInterface.IUserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+<span class="fc" id="L18">@RequiredArgsConstructor</span>
+public class UserService implements IUserService {
+
+    private final IUserDAL dal;
+<span class="fc" id="L22">    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();</span>
+
+
+    @Override
+    public ResponseEntity&lt;List&lt;IUser&gt;&gt; ReturnAllUsers()
+    {
+<span class="fc bfc" id="L28" title="All 2 branches covered.">        if (dal.getAllUsers() == null)</span>
+        {
+<span class="fc" id="L30">            return ResponseEntity.notFound().build();</span>
+        }
+        else
+        {
+<span class="fc" id="L34">            return ResponseEntity.ok().body(dal.getAllUsers());</span>
+        }
+
+    }
+
+    public IUser GetUserByUsername(String username) {
+<span class="fc" id="L40">        return dal.getUserByUsername(username);</span>
+    }
+
+    @Override
+    public ResponseEntity&lt;IUser&gt; ReturnUserByUsername(String username){
+<span class="fc" id="L45">        IUser account = dal.getUserByUsername(username);</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        if (account == null)</span>
+        {
+<span class="fc" id="L48">            return ResponseEntity.notFound().build();</span>
+        }
+        else
+        {
+<span class="fc" id="L52">            return ResponseEntity.ok().body(account);</span>
+        }
+    }
+
+    @Override
+    public ResponseEntity&lt;IUser&gt; ReturnUserByID(int id) {
+<span class="fc" id="L58">        IUser account = dal.getUserById(id);</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">        if (account == null) {</span>
+<span class="fc" id="L60">            return ResponseEntity.notFound().build();</span>
+        } else {
+<span class="fc" id="L62">            return ResponseEntity.ok().body(account);</span>
+        }
+    }
+
+
+    @Override
+    public boolean UserRegistration(UserCreateRequest userCreateRequest) {
+        IUser user;
+<span class="fc" id="L70">        Optional&lt;IUser&gt; byUsername = Optional.ofNullable(dal.getUserByUsername(userCreateRequest.getUsername()));</span>
+<span class="pc bpc" id="L71" title="1 of 2 branches missed.">        if (byUsername.isPresent()) {</span>
+<span class="nc" id="L72">            throw new RuntimeException(&quot;User already registered. Please use different username.&quot;);</span>
+        }
+<span class="fc" id="L74">        user = new UserAccount(userCreateRequest.getId(),</span>
+<span class="fc" id="L75">                userCreateRequest.getUsername(),</span>
+<span class="fc" id="L76">                passwordEncoder.encode(userCreateRequest.getPassword()),</span>
+<span class="fc" id="L77">                userCreateRequest.getEmail(),</span>
+<span class="fc" id="L78">                userCreateRequest.getFirstName(),</span>
+<span class="fc" id="L79">                userCreateRequest.getLastName(),</span>
+<span class="fc" id="L80">                userCreateRequest.getRole());</span>
+<span class="fc" id="L81">        dal.addUser(user);</span>
+<span class="fc" id="L82">        return true;</span>
+    }
+
+    @Override
+    public boolean EditUserDetails(String username, UserEditDetailsRequest userEditDetailsRequest){
+<span class="fc" id="L87">        IUser user = GetUserByUsername(username);</span>
+<span class="fc" id="L88">        int id = user.getId();</span>
+
+<span class="fc" id="L90">        dal.editUserDetails(id, userEditDetailsRequest.getEmail(), userEditDetailsRequest.getFirstName(), userEditDetailsRequest.getLastName());</span>
+<span class="fc" id="L91">        return true;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

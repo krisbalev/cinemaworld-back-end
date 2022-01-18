@@ -31,7 +31,7 @@ public class ReservationService implements IReservationService {
     }
 
     @Override
-    public void reserve(String username,ReservationCreateRequest reservationCreateRequest){
+    public boolean reserve(String username,ReservationCreateRequest reservationCreateRequest){
         Reservation reservation = new Reservation(reservationCreateRequest.getId(),
                                     username,
                                     reservationCreateRequest.getMovieName(),
@@ -40,6 +40,7 @@ public class ReservationService implements IReservationService {
                                     reservationCreateRequest.getNumberOfTickets(),
                                     reservationCreateRequest.getTheatreName());
         dal.reserve(reservation);
+        return true;
     }
 
     @Override

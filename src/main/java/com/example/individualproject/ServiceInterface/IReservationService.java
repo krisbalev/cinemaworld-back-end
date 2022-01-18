@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface IReservationService {
     ResponseEntity<List<IReservation>> returnAllReservations();
-    void reserve(String username,ReservationCreateRequest reservationCreateRequest);
+    boolean reserve(String username,ReservationCreateRequest reservationCreateRequest);
     ResponseEntity<List<IReservation>> returnReservationsByUser(String username);
 }

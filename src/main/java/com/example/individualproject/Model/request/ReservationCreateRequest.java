@@ -9,7 +9,6 @@ import java.sql.Time;
 
 @Getter
 @Setter
-@Data
 public class ReservationCreateRequest {
     private int id;
     private String movieName;

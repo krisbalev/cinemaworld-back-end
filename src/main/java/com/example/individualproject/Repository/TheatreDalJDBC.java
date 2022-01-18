@@ -97,4 +97,82 @@ public class TheatreDalJDBC extends JDBCRepository implements ITheatreDAL {
         }
         return theatre;
     }
+
+    @Override
+    public void addTheatre(Theatre theatre){
+        Connection connection = this.getDatabaseConnection();
+        PreparedStatement statement = null;
+        try{
+            statement = connection.prepareStatement("INSERT INTO `theatres` (`id`, `name`, `address`) VALUES (NULL, ?, ?);");
+            statement.setString(1, theatre.getName());
+            statement.setString(2, theatre.getAddress());
+
+            statement.executeUpdate();
+
+        } catch (SQLException throwable) {}
+        finally {
+            try{
+                if(statement != null ) {
+                    statement.close();
+                }
+                connection.commit();
+                connection.close();
+            }
+            catch (SQLException throwable){
+                System.out.println("Can't close connection");
+            }
+        }
+    }
+
+    @Override
+    public void deleteTheatre(int id){
+        Connection connection = this.getDatabaseConnection();
+        PreparedStatement statement = null;
+        try{
+            statement = connection.prepareStatement("DELETE FROM `theatres` WHERE `theatres`.`id` = ?");
+            statement.setInt(1, id);
+
+            statement.executeUpdate();
+
+        } catch (SQLException throwable) {}
+        finally {
+            try{
+                if(statement != null ) {
+                    statement.close();
+                }
+                connection.commit();
+                connection.close();
+            }
+            catch (SQLException throwable){
+                System.out.println("Can't close connection");
+            }
+        }
+    }
+
+    @Override
+    public void editTheatre(Theatre theatre){
+        Connection connection = this.getDatabaseConnection();
+        PreparedStatement statement = null;
+        try{
+            statement = connection.prepareStatement("UPDATE `theatres` SET `name` = ?, `address` = ? WHERE `theatres`.`id` = ?");
+            statement.setString(1, theatre.getName());
+            statement.setString(2, theatre.getAddress());
+            statement.setInt(3, theatre.getId());
+
+            statement.executeUpdate();
+
+        } catch (SQLException throwable) {}
+        finally {
+            try{
+                if(statement != null ) {
+                    statement.close();
+                }
+                connection.commit();
+                connection.close();
+            }
+            catch (SQLException throwable){
+                System.out.println("Can't close connection");
+            }
+        }
+    }
 }

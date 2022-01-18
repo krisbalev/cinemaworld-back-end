@@ -1,5 +1,6 @@
 package com.example.individualproject.Controller;
 
+import com.example.individualproject.Model.request.MovieCreateRequest;
 import com.example.individualproject.ServiceInterface.IMovie;
 import com.example.individualproject.ServiceInterface.IMovieService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,10 +79,9 @@ public class MoviesController {
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/add")
-    public ResponseEntity<IMovie> addMovie() {
-
-        return ResponseEntity.ok().build();
+    @GetMapping("/trailer/{id}")
+    public String getTrailerByMovieId(@PathVariable(value = "id") int id){
+        return this.movieService.returnTrailerByMovieId(id);
     }
 
 }

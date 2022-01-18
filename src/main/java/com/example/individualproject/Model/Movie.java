@@ -9,8 +9,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.tomcat.jni.Local;
 
+import java.sql.Date;
 import java.time.LocalDate;
-import java.util.Date;
+
 @Getter
 @Setter
 public class Movie implements IMovie {
@@ -28,9 +29,4 @@ public class Movie implements IMovie {
     }
 
     public Movie() {}
-
-    @Override
-    public String toString() {
-        return "Movie: " + this.title + " released on " + this.description;
-    }
 }

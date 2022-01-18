@@ -6,7 +6,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Data
 public class UserEditDetailsRequest {
     protected String email;
     protected String firstName;

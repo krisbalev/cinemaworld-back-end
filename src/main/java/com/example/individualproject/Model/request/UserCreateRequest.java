@@ -6,15 +6,14 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Data
-
 public class UserCreateRequest {
 
     protected int id;
-    protected   String username;
-    protected   String password;
-    protected   String email;
-    protected   String firstName;
-    protected   String lastName;
+    protected String username;
+    protected String password;
+    protected String email;
+    protected String firstName;
+    protected String lastName;
+    protected String role;
 
 }

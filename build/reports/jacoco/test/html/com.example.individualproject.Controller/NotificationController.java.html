@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NotificationController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">IndividualProject</a> &gt; <a href="index.source.html" class="el_package">com.example.individualproject.Controller</a> &gt; <span class="el_source">NotificationController.java</span></div><h1>NotificationController.java</h1><pre class="source lang-java linenums">package com.example.individualproject.Controller;
+
+import com.example.individualproject.Model.Message;
+import com.example.individualproject.Model.Notification;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.util.HtmlUtils;
+
+@Controller
+<span class="fc" id="L12">public class NotificationController {</span>
+
+    @MessageMapping(&quot;/notify&quot;)
+    @SendTo(&quot;/topic/notifications&quot;)
+    public Notification notify(Message message) throws Exception {
+<span class="nc" id="L17">        return new Notification(HtmlUtils.htmlEscape(message.getName()));</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
