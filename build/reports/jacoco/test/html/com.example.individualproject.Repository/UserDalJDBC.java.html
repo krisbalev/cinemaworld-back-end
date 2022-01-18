@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserDalJDBC.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">IndividualProject</a> &gt; <a href="index.source.html" class="el_package">com.example.individualproject.Repository</a> &gt; <span class="el_source">UserDalJDBC.java</span></div><h1>UserDalJDBC.java</h1><pre class="source lang-java linenums">package com.example.individualproject.Repository;
+
+import com.example.individualproject.DALInterfaces.IUserDAL;
+import com.example.individualproject.Model.UserAccount;
+import com.example.individualproject.ServiceInterface.IUser;
+import org.springframework.stereotype.Repository;
+
+import javax.swing.plaf.nimbus.State;
+import java.sql.*;
+import java.util.ArrayList;
+
+@Repository
+<span class="fc" id="L13">public class UserDalJDBC extends JDBCRepository implements IUserDAL {</span>
+
+
+    @Override
+    public ArrayList&lt;IUser&gt; getAllUsers() {
+
+<span class="nc" id="L19">        ArrayList&lt;IUser&gt; accounts = new ArrayList&lt;IUser&gt;();</span>
+<span class="nc" id="L20">        Connection connection = this.getDatabaseConnection();</span>
+<span class="nc" id="L21">        Statement statement = null;</span>
+
+        try {
+
+<span class="nc" id="L25">            statement = connection.createStatement();</span>
+<span class="nc" id="L26">            ResultSet resultSet = statement.executeQuery(&quot;SELECT * from user&quot;);</span>
+
+
+<span class="nc bnc" id="L29" title="All 2 branches missed.">            while (resultSet.next()) {</span>
+<span class="nc" id="L30">                int id = resultSet.getInt(&quot;ID&quot;);</span>
+<span class="nc" id="L31">                String username = resultSet.getString(&quot;username&quot;);</span>
+<span class="nc" id="L32">                String password = resultSet.getString(&quot;password&quot;);</span>
+<span class="nc" id="L33">                String email = resultSet.getString(&quot;email&quot;);</span>
+<span class="nc" id="L34">                String firstName = resultSet.getString(&quot;first_name&quot;);</span>
+<span class="nc" id="L35">                String lastName = resultSet.getString(&quot;last_name&quot;);</span>
+<span class="nc" id="L36">                String role = resultSet.getString(&quot;role&quot;);</span>
+
+<span class="nc" id="L38">                IUser account = new UserAccount(id, username, password,email,firstName,lastName, role);</span>
+<span class="nc" id="L39">                accounts.add(account);</span>
+<span class="nc" id="L40">            }</span>
+
+<span class="nc" id="L42">        } catch (SQLException throwable) {System.out.println(&quot;Ne sum swyrzan&quot;);}</span>
+        finally {
+            try{
+<span class="nc bnc" id="L45" title="All 2 branches missed.">                if(statement != null ) {</span>
+<span class="nc" id="L46">                    statement.close();</span>
+                }
+<span class="nc" id="L48">                connection.commit();</span>
+<span class="nc" id="L49">                connection.close();</span>
+            }
+<span class="nc" id="L51">            catch (SQLException throwable){</span>
+<span class="nc" id="L52">                System.out.println(&quot;Can't close connection&quot;);</span>
+<span class="nc" id="L53">            }</span>
+        }
+
+<span class="nc" id="L56">        return accounts;</span>
+    }
+
+    @Override
+    public IUser getUserById(int id) {
+<span class="nc" id="L61">        Connection connection = this.getDatabaseConnection();</span>
+<span class="nc" id="L62">        IUser account = null;</span>
+<span class="nc" id="L63">        PreparedStatement statement = null;</span>
+        try {
+
+<span class="nc" id="L66">            statement = connection.prepareStatement(&quot;SELECT * from user WHERE ID = ?&quot;);</span>
+<span class="nc" id="L67">            statement.setInt(1, id);</span>
+
+<span class="nc" id="L69">            ResultSet resultSet = statement.executeQuery();</span>
+<span class="nc" id="L70">            resultSet.next();</span>
+
+<span class="nc" id="L72">            int accountId = resultSet.getInt(&quot;ID&quot;);</span>
+<span class="nc" id="L73">            String username = resultSet.getString(&quot;username&quot;);</span>
+<span class="nc" id="L74">            String password = resultSet.getString(&quot;password&quot;);</span>
+<span class="nc" id="L75">            String email = resultSet.getString(&quot;email&quot;);</span>
+<span class="nc" id="L76">            String firstName = resultSet.getString(&quot;first_name&quot;);</span>
+<span class="nc" id="L77">            String lastName = resultSet.getString(&quot;last_name&quot;);</span>
+<span class="nc" id="L78">            String role = resultSet.getString(&quot;role&quot;);</span>
+
+<span class="nc" id="L80">            account = new UserAccount(accountId, username, password,email,firstName,lastName, role);</span>
+
+
+<span class="nc" id="L83">        } catch (SQLException throwable) {System.out.println(&quot;Can't get account by id&quot;);}</span>
+        finally {
+            try{
+<span class="nc bnc" id="L86" title="All 2 branches missed.">                if(statement != null ) {</span>
+<span class="nc" id="L87">                    statement.close();</span>
+                }
+<span class="nc" id="L89">                connection.commit();</span>
+<span class="nc" id="L90">                connection.close();</span>
+            }
+<span class="nc" id="L92">            catch (SQLException throwable){</span>
+<span class="nc" id="L93">                System.out.println(&quot;Can't close connection&quot;);</span>
+<span class="nc" id="L94">            }</span>
+        }
+
+<span class="nc" id="L97">        return account;</span>
+    }
+
+    @Override
+    public IUser getUserByUsername(String username) {
+<span class="nc" id="L102">        Connection connection = this.getDatabaseConnection();</span>
+<span class="nc" id="L103">        IUser account = null;</span>
+<span class="nc" id="L104">        PreparedStatement statement = null;</span>
+        try {
+
+<span class="nc" id="L107">            statement = connection.prepareStatement(&quot;SELECT * from user WHERE username = ?&quot; );</span>
+<span class="nc" id="L108">            statement.setString(1, username);</span>
+
+<span class="nc" id="L110">            ResultSet resultSet = statement.executeQuery();</span>
+<span class="nc" id="L111">            resultSet.next();</span>
+
+<span class="nc" id="L113">            int accountId = resultSet.getInt(&quot;ID&quot;);</span>
+<span class="nc" id="L114">            String accountName = resultSet.getString(&quot;username&quot;);</span>
+<span class="nc" id="L115">            String password = resultSet.getString(&quot;password&quot;);</span>
+<span class="nc" id="L116">            String email = resultSet.getString(&quot;email&quot;);</span>
+<span class="nc" id="L117">            String firstName = resultSet.getString(&quot;first_name&quot;);</span>
+<span class="nc" id="L118">            String lastName = resultSet.getString(&quot;last_name&quot;);</span>
+<span class="nc" id="L119">            String role = resultSet.getString(&quot;role&quot;);</span>
+
+<span class="nc" id="L121">            account = new UserAccount(accountId, accountName, password,email,firstName,lastName, role);</span>
+
+<span class="nc" id="L123">        } catch (SQLException throwable) {System.out.println(&quot;Can't get account by username&quot;);}</span>
+        finally {
+            try{
+<span class="nc bnc" id="L126" title="All 2 branches missed.">                if(statement != null ) {</span>
+<span class="nc" id="L127">                    statement.close();</span>
+                }
+<span class="nc" id="L129">                connection.commit();</span>
+<span class="nc" id="L130">                connection.close();</span>
+            }
+<span class="nc" id="L132">            catch (SQLException throwable){</span>
+<span class="nc" id="L133">                System.out.println(&quot;Can't close connection&quot;);</span>
+<span class="nc" id="L134">            }</span>
+        }
+
+<span class="nc" id="L137">        return account;</span>
+    }
+
+
+    @Override
+    public boolean addUser(IUser account) {
+<span class="nc" id="L143">        Connection connection = this.getDatabaseConnection();</span>
+<span class="nc" id="L144">        PreparedStatement statement = null;</span>
+        try {
+<span class="nc" id="L146">            statement = connection.prepareStatement(&quot;INSERT INTO user (`ID`, `first_name`, `last_name`, `username`, `password`, `email`, `role`) VALUES (NULL, ?, ?, ?, ?, ?, ?);&quot;);</span>
+<span class="nc" id="L147">            statement.setString(1, account.getFirstName());</span>
+<span class="nc" id="L148">            statement.setString(2, account.getLastName());</span>
+<span class="nc" id="L149">            statement.setString(3, account.getUsername());</span>
+<span class="nc" id="L150">            statement.setString(4, account.getPassword());</span>
+<span class="nc" id="L151">            statement.setString(5, account.getEmail());</span>
+<span class="nc" id="L152">            statement.setString(6, account.getRole());</span>
+
+<span class="nc" id="L154">            statement.executeUpdate();</span>
+
+<span class="nc" id="L156">        } catch (SQLException throwable) {}</span>
+        finally {
+            try{
+<span class="nc bnc" id="L159" title="All 2 branches missed.">                if(statement != null ) {</span>
+<span class="nc" id="L160">                    statement.close();</span>
+                }
+<span class="nc" id="L162">                connection.commit();</span>
+<span class="nc" id="L163">                connection.close();</span>
+            }
+<span class="nc" id="L165">            catch (SQLException throwable){</span>
+<span class="nc" id="L166">                System.out.println(&quot;Can't close connection&quot;);</span>
+<span class="nc" id="L167">            }</span>
+        }
+<span class="nc" id="L169">        return false;</span>
+    }
+
+    @Override
+    public void editUserDetails(int id, String email, String firstName, String lastName) {
+<span class="nc" id="L174">        Connection connection = this.getDatabaseConnection();</span>
+<span class="nc" id="L175">        PreparedStatement statement = null;</span>
+
+        try {
+<span class="nc" id="L178">            statement = connection.prepareStatement(&quot;UPDATE `user` SET `email` = ?, `first_name` = ?, `last_name` = ? WHERE `user`.`ID` = ?&quot;);</span>
+<span class="nc" id="L179">            statement.setString(1, email);</span>
+<span class="nc" id="L180">            statement.setString(2, firstName);</span>
+<span class="nc" id="L181">            statement.setString(3, lastName);</span>
+
+<span class="nc" id="L183">            statement.setInt(4, id);</span>
+
+<span class="nc" id="L185">            statement.executeUpdate();</span>
+
+
+
+<span class="nc" id="L189">        } catch (SQLException throwable) {}</span>
+        finally {
+            try{
+<span class="nc bnc" id="L192" title="All 2 branches missed.">                if(statement != null ) {</span>
+<span class="nc" id="L193">                    statement.close();</span>
+                }
+<span class="nc" id="L195">                connection.commit();</span>
+<span class="nc" id="L196">                connection.close();</span>
+            }
+<span class="nc" id="L198">            catch (SQLException throwable){</span>
+<span class="nc" id="L199">                System.out.println(&quot;Can't close connection&quot;);</span>
+<span class="nc" id="L200">            }</span>
+        }
+<span class="nc" id="L202">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

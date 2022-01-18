@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReservationDalJDBC.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">IndividualProject</a> &gt; <a href="index.source.html" class="el_package">com.example.individualproject.Repository</a> &gt; <span class="el_source">ReservationDalJDBC.java</span></div><h1>ReservationDalJDBC.java</h1><pre class="source lang-java linenums">package com.example.individualproject.Repository;
+
+import com.example.individualproject.DALInterfaces.IReservationDAL;
+import com.example.individualproject.Model.Reservation;
+import com.example.individualproject.ServiceInterface.IReservation;
+import org.springframework.stereotype.Repository;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.sql.Date;
+import java.util.List;
+
+@Repository
+<span class="fc" id="L14">public class ReservationDalJDBC extends JDBCRepository implements IReservationDAL {</span>
+
+    @Override
+    public List&lt;IReservation&gt; getAllReservations(){
+<span class="nc" id="L18">        List&lt;IReservation&gt; reservations = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L20">        Connection connection = this.getDatabaseConnection();</span>
+
+<span class="nc" id="L22">        Statement statement = null;</span>
+
+        try {
+
+<span class="nc" id="L26">            statement = connection.createStatement();</span>
+<span class="nc" id="L27">            ResultSet resultSet = statement.executeQuery(&quot;SELECT * from reservations&quot;);</span>
+
+
+<span class="nc bnc" id="L30" title="All 2 branches missed.">            while (resultSet.next()) {</span>
+<span class="nc" id="L31">                int id = resultSet.getInt(&quot;id&quot;);</span>
+<span class="nc" id="L32">                String username = resultSet.getString(&quot;username&quot;);</span>
+<span class="nc" id="L33">                String movieName = resultSet.getString(&quot;movie_name&quot;);</span>
+<span class="nc" id="L34">                Date date = resultSet.getDate(&quot;date&quot;);</span>
+<span class="nc" id="L35">                Time time = resultSet.getTime(&quot;time&quot;);</span>
+<span class="nc" id="L36">                int numberOfTickets = resultSet.getInt(&quot;tickets&quot;);</span>
+<span class="nc" id="L37">                String theatreName = resultSet.getString(&quot;theatre&quot;);</span>
+
+
+<span class="nc" id="L40">                IReservation reservation = new Reservation(id, username, movieName, date, time, numberOfTickets, theatreName);</span>
+<span class="nc" id="L41">                reservations.add(reservation);</span>
+<span class="nc" id="L42">            }</span>
+        }
+
+<span class="nc" id="L45">        catch (SQLException throwable) {</span>
+
+<span class="nc" id="L47">            System.out.println(&quot;Can't get all reservations&quot;);</span>
+        }
+
+        finally {
+            try{
+<span class="nc bnc" id="L52" title="All 2 branches missed.">                if(statement != null ) {</span>
+<span class="nc" id="L53">                    statement.close();</span>
+                }
+<span class="nc" id="L55">                connection.commit();</span>
+<span class="nc" id="L56">                connection.close();</span>
+            }
+<span class="nc" id="L58">            catch (SQLException throwable){</span>
+<span class="nc" id="L59">                System.out.println(&quot;Can't close connection&quot;);</span>
+<span class="nc" id="L60">            }</span>
+        }
+
+<span class="nc" id="L63">        return reservations;</span>
+    }
+
+    @Override
+    public void reserve(Reservation reservation){
+<span class="nc" id="L68">        Connection connection = this.getDatabaseConnection();</span>
+<span class="nc" id="L69">        PreparedStatement statement = null;</span>
+        try{
+<span class="nc" id="L71">            statement = connection.prepareStatement(&quot;INSERT INTO `reservations` (`id`, `username`, `movie_name`, `date`, `time`, `tickets`, `theatre`) VALUES (NULL, ?, ?, ?, ?, ?, ?);&quot;);</span>
+<span class="nc" id="L72">            statement.setString(1, reservation.getUsername());</span>
+<span class="nc" id="L73">            statement.setString(2, reservation.getMovieName());</span>
+<span class="nc" id="L74">            statement.setDate(3, reservation.getDate());</span>
+<span class="nc" id="L75">            statement.setTime(4, reservation.getTime());</span>
+<span class="nc" id="L76">            statement.setInt(5, reservation.getNumberOfTickets());</span>
+<span class="nc" id="L77">            statement.setString(6, reservation.getTheatreName());</span>
+
+<span class="nc" id="L79">            statement.executeUpdate();</span>
+
+<span class="nc" id="L81">        } catch (SQLException throwable) {}</span>
+        finally {
+            try{
+<span class="nc bnc" id="L84" title="All 2 branches missed.">                if(statement != null ) {</span>
+<span class="nc" id="L85">                    statement.close();</span>
+                }
+<span class="nc" id="L87">                connection.commit();</span>
+<span class="nc" id="L88">                connection.close();</span>
+            }
+<span class="nc" id="L90">            catch (SQLException throwable){</span>
+<span class="nc" id="L91">                System.out.println(&quot;Can't close connection&quot;);</span>
+<span class="nc" id="L92">            }</span>
+        }
+<span class="nc" id="L94">    }</span>
+
+    @Override
+    public List&lt;IReservation&gt; getReservationsByUser(String username){
+<span class="nc" id="L98">        List&lt;IReservation&gt; reservations = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L100">        Connection connection = this.getDatabaseConnection();</span>
+
+<span class="nc" id="L102">        PreparedStatement statement = null;</span>
+
+        try {
+
+<span class="nc" id="L106">            statement = connection.prepareStatement(&quot;SELECT * from reservations WHERE username = ? ORDER BY id desc&quot;);</span>
+<span class="nc" id="L107">            statement.setString(1, username);</span>
+<span class="nc" id="L108">            ResultSet resultSet = statement.executeQuery();</span>
+
+
+<span class="nc bnc" id="L111" title="All 2 branches missed.">            while (resultSet.next()) {</span>
+<span class="nc" id="L112">                int id = resultSet.getInt(&quot;id&quot;);</span>
+<span class="nc" id="L113">                String reserverName = resultSet.getString(&quot;username&quot;);</span>
+<span class="nc" id="L114">                String movieName = resultSet.getString(&quot;movie_name&quot;);</span>
+<span class="nc" id="L115">                Date date = resultSet.getDate(&quot;date&quot;);</span>
+<span class="nc" id="L116">                Time time = resultSet.getTime(&quot;time&quot;);</span>
+<span class="nc" id="L117">                int numberOfTickets = resultSet.getInt(&quot;tickets&quot;);</span>
+<span class="nc" id="L118">                String theatreName = resultSet.getString(&quot;theatre&quot;);</span>
+
+
+<span class="nc" id="L121">                IReservation reservation = new Reservation(id, reserverName, movieName, date, time, numberOfTickets, theatreName);</span>
+<span class="nc" id="L122">                reservations.add(reservation);</span>
+<span class="nc" id="L123">            }</span>
+        }
+
+<span class="nc" id="L126">        catch (SQLException throwable) {</span>
+
+<span class="nc" id="L128">            System.out.println(&quot;Can't get all user reservations&quot;);</span>
+        }
+
+        finally {
+            try{
+<span class="nc bnc" id="L133" title="All 2 branches missed.">                if(statement != null ) {</span>
+<span class="nc" id="L134">                    statement.close();</span>
+                }
+<span class="nc" id="L136">                connection.commit();</span>
+<span class="nc" id="L137">                connection.close();</span>
+            }
+<span class="nc" id="L139">            catch (SQLException throwable){</span>
+<span class="nc" id="L140">                System.out.println(&quot;Can't close connection&quot;);</span>
+<span class="nc" id="L141">            }</span>
+        }
+
+<span class="nc" id="L144">        return reservations;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

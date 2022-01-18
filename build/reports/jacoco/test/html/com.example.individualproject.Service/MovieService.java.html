@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MovieService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">IndividualProject</a> &gt; <a href="index.source.html" class="el_package">com.example.individualproject.Service</a> &gt; <span class="el_source">MovieService.java</span></div><h1>MovieService.java</h1><pre class="source lang-java linenums">package com.example.individualproject.Service;
+
+import com.example.individualproject.DALInterfaces.IMovieDAL;
+import com.example.individualproject.Model.Movie;
+import com.example.individualproject.Model.request.MovieCreateRequest;
+import com.example.individualproject.Model.request.TrailerCreateRequest;
+import com.example.individualproject.ServiceInterface.IMovie;
+import com.example.individualproject.ServiceInterface.IMovieService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
+import java.util.Optional;
+@Service
+public class MovieService implements IMovieService {
+
+    @Autowired
+    IMovieDAL dal;
+
+<span class="fc" id="L23">    public MovieService(IMovieDAL dal){</span>
+<span class="fc" id="L24">        this.dal = dal;</span>
+<span class="fc" id="L25">    }</span>
+
+    public ResponseEntity&lt;List&lt;IMovie&gt;&gt; returnAllMovies() {
+<span class="fc bfc" id="L28" title="All 2 branches covered.">        if(dal.getAllMovies() == null){</span>
+<span class="fc" id="L29">            return ResponseEntity.notFound().build();</span>
+        }
+        else{
+<span class="fc" id="L32">            return ResponseEntity.ok().body(dal.getAllMovies());</span>
+        }
+
+
+    }
+
+    public ResponseEntity&lt;IMovie&gt; returnMovieById(int id) {
+<span class="fc" id="L39">        IMovie movie = dal.getMovieById(id);</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">        if (movie == null)</span>
+        {
+<span class="fc" id="L42">            return ResponseEntity.notFound().build();</span>
+        }
+        else
+        {
+<span class="fc" id="L46">            return ResponseEntity.ok().body(movie);</span>
+        }
+    }
+
+    @Override
+    public String ReturnPhotoOfMovieByID(int id)
+    {
+<span class="fc" id="L53">        String path = dal.getPhotoByMovieId(id);</span>
+<span class="fc" id="L54">        return path;</span>
+    }
+
+    @Override
+    public String ReturnPosterOfMovieByID(int id)
+    {
+<span class="fc" id="L60">        String path = dal.getPosterByMovieId(id);</span>
+<span class="fc" id="L61">        return path;</span>
+    }
+
+    @Override
+    public String returnTrailerByMovieId(int id){
+<span class="fc" id="L66">        return this.dal.getTrailer(id);</span>
+    }
+
+    @Override
+    public boolean addMovie(MovieCreateRequest movieCreateRequest){
+<span class="fc" id="L71">        Movie movie = new Movie(movieCreateRequest.getId(),</span>
+<span class="fc" id="L72">                                movieCreateRequest.getTitle(),</span>
+<span class="fc" id="L73">                                movieCreateRequest.getDescription(),</span>
+<span class="fc" id="L74">                                movieCreateRequest.getReleaseDate());</span>
+<span class="fc" id="L75">        this.dal.addMovie(movie);</span>
+<span class="fc" id="L76">        return true;</span>
+    }
+
+    @Override
+    public boolean addTrailer(TrailerCreateRequest trailerCreateRequest){
+<span class="fc" id="L81">        this.dal.addTrailer(trailerCreateRequest.getMovieId(), trailerCreateRequest.getUrl());</span>
+<span class="fc" id="L82">        return true;</span>
+    }
+
+    @Override
+    public boolean removeMovie(int id){
+<span class="fc" id="L87">        this.dal.deleteMovie(id);</span>
+<span class="fc" id="L88">        this.dal.deleteTrailer(id);</span>
+<span class="fc" id="L89">        return true;</span>
+    }
+
+    @Override
+    public boolean editMovie(MovieCreateRequest movieCreateRequest){
+<span class="fc" id="L94">        Movie movie = new Movie(movieCreateRequest.getId(),</span>
+<span class="fc" id="L95">                movieCreateRequest.getTitle(),</span>
+<span class="fc" id="L96">                movieCreateRequest.getDescription(),</span>
+<span class="fc" id="L97">                movieCreateRequest.getReleaseDate());</span>
+<span class="fc" id="L98">        this.dal.editMovie(movie);</span>
+<span class="fc" id="L99">        this.dal.editTrailer(movieCreateRequest.getTrailer(), movieCreateRequest.getId());</span>
+<span class="fc" id="L100">        return true;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

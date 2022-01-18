@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MovieDalJDBC.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">IndividualProject</a> &gt; <a href="index.source.html" class="el_package">com.example.individualproject.Repository</a> &gt; <span class="el_source">MovieDalJDBC.java</span></div><h1>MovieDalJDBC.java</h1><pre class="source lang-java linenums">package com.example.individualproject.Repository;
+
+import com.example.individualproject.DALInterfaces.IMovieDAL;
+import com.example.individualproject.Model.Movie;
+import com.example.individualproject.ServiceInterface.IMovie;
+import org.springframework.stereotype.Repository;
+
+import java.sql.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.sql.Date;
+
+@Repository
+<span class="fc" id="L15">public class MovieDalJDBC extends com.example.individualproject.Repository.JDBCRepository implements IMovieDAL {</span>
+
+    @Override
+    public List&lt;IMovie&gt; getAllMovies(){
+
+<span class="nc" id="L20">        List&lt;IMovie&gt; movies = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L22">        Connection connection = this.getDatabaseConnection();</span>
+
+<span class="nc" id="L24">        Statement statement = null;</span>
+
+        try {
+
+<span class="nc" id="L28">            statement = connection.createStatement();</span>
+<span class="nc" id="L29">            ResultSet resultSet = statement.executeQuery(&quot;SELECT * from movies&quot;);</span>
+
+
+<span class="nc bnc" id="L32" title="All 2 branches missed.">            while (resultSet.next()) {</span>
+<span class="nc" id="L33">                int id = resultSet.getInt(&quot;id&quot;);</span>
+<span class="nc" id="L34">                String title = resultSet.getString(&quot;title&quot;);</span>
+<span class="nc" id="L35">                String description = resultSet.getString(&quot;description&quot;);</span>
+<span class="nc" id="L36">                Date releaseDate = resultSet.getDate(&quot;release_date&quot;);</span>
+
+
+<span class="nc" id="L39">                IMovie movie = new Movie(id, title, description, releaseDate);</span>
+<span class="nc" id="L40">                movies.add(movie);</span>
+<span class="nc" id="L41">            }</span>
+        }
+
+<span class="nc" id="L44">        catch (SQLException throwable) {</span>
+
+<span class="nc" id="L46">                System.out.println(&quot;Can't get all movies&quot;);</span>
+            }
+
+        finally {
+                try{
+<span class="nc bnc" id="L51" title="All 2 branches missed.">                    if(statement != null ) {</span>
+<span class="nc" id="L52">                        statement.close();</span>
+                    }
+<span class="nc" id="L54">                    connection.commit();</span>
+<span class="nc" id="L55">                    connection.close();</span>
+                }
+<span class="nc" id="L57">                catch (SQLException throwable){</span>
+<span class="nc" id="L58">                    System.out.println(&quot;Can't close connection&quot;);</span>
+<span class="nc" id="L59">                }</span>
+            }
+
+<span class="nc" id="L62">            return movies;</span>
+        }
+
+    @Override
+    public IMovie getMovieById(int id) {
+<span class="nc" id="L67">        Connection connection = this.getDatabaseConnection();</span>
+<span class="nc" id="L68">        IMovie movie = null;</span>
+
+<span class="nc" id="L70">        PreparedStatement statement = null;</span>
+        try {
+<span class="nc" id="L72">            statement = connection.prepareStatement(&quot;SELECT * from movies WHERE id = ?&quot;);</span>
+<span class="nc" id="L73">            statement.setInt(1, id);</span>
+
+<span class="nc" id="L75">            ResultSet resultSet = statement.executeQuery();</span>
+<span class="nc" id="L76">            resultSet.next();</span>
+
+<span class="nc" id="L78">            int movieId = resultSet.getInt(&quot;id&quot;);</span>
+<span class="nc" id="L79">            String title = resultSet.getString(&quot;title&quot;);</span>
+<span class="nc" id="L80">            String description = resultSet.getString(&quot;description&quot;);</span>
+<span class="nc" id="L81">            Date releaseDate = resultSet.getDate(&quot;release_date&quot;);</span>
+
+<span class="nc" id="L83">            movie = new Movie(movieId, title, description, releaseDate);</span>
+
+<span class="nc" id="L85">        } catch (SQLException throwable) {</span>
+<span class="nc" id="L86">            System.out.println(&quot;Can't get movie by id&quot;);</span>
+
+        }
+        finally {
+            try{
+<span class="nc bnc" id="L91" title="All 2 branches missed.">                if(statement != null ) {</span>
+<span class="nc" id="L92">                    statement.close();</span>
+                }
+<span class="nc" id="L94">                connection.commit();</span>
+<span class="nc" id="L95">                connection.close();</span>
+            }
+<span class="nc" id="L97">            catch (SQLException throwable){</span>
+<span class="nc" id="L98">                System.out.println(&quot;Can't close connection&quot;);</span>
+<span class="nc" id="L99">            }</span>
+        }
+<span class="nc" id="L101">        return movie;</span>
+    }
+
+    @Override
+    public String getPhotoByMovieId(int id) {
+<span class="nc" id="L106">        Connection connection = this.getDatabaseConnection();</span>
+<span class="nc" id="L107">        String path = &quot;&quot;;</span>
+<span class="nc" id="L108">        PreparedStatement statement = null;</span>
+        try {
+<span class="nc" id="L110">            statement = connection.prepareStatement(&quot;SELECT * from movie_photos WHERE movie_ID = ?&quot;);</span>
+<span class="nc" id="L111">            statement.setInt(1, id);</span>
+
+<span class="nc" id="L113">            ResultSet resultSet = statement.executeQuery();</span>
+<span class="nc" id="L114">            resultSet.next();</span>
+
+<span class="nc" id="L116">            path = resultSet.getString(&quot;path&quot;);</span>
+
+
+        }
+<span class="nc" id="L120">        catch (SQLException throwable) {System.out.println(&quot;Can't get photo of movie&quot;);}</span>
+
+        finally {
+            try{
+<span class="nc bnc" id="L124" title="All 2 branches missed.">                if(statement != null ) {</span>
+<span class="nc" id="L125">                    statement.close();</span>
+                }
+<span class="nc" id="L127">                connection.commit();</span>
+<span class="nc" id="L128">                connection.close();</span>
+            }
+<span class="nc" id="L130">            catch (SQLException throwable){</span>
+<span class="nc" id="L131">                System.out.println(&quot;Can't close connection&quot;);</span>
+<span class="nc" id="L132">            }</span>
+        }
+
+<span class="nc" id="L135">        return path;</span>
+    }
+
+    @Override
+    public String getPosterByMovieId(int id) {
+<span class="nc" id="L140">        Connection connection = this.getDatabaseConnection();</span>
+<span class="nc" id="L141">        String path = &quot;&quot;;</span>
+<span class="nc" id="L142">        PreparedStatement statement = null;</span>
+        try {
+<span class="nc" id="L144">            statement = connection.prepareStatement(&quot;SELECT * from movie_posters WHERE movie_ID = ?&quot;);</span>
+<span class="nc" id="L145">            statement.setInt(1, id);</span>
+
+<span class="nc" id="L147">            ResultSet resultSet = statement.executeQuery();</span>
+<span class="nc" id="L148">            resultSet.next();</span>
+
+<span class="nc" id="L150">            path = resultSet.getString(&quot;path&quot;);</span>
+
+
+        }
+<span class="nc" id="L154">        catch (SQLException throwable) {System.out.println(&quot;Can't get photo of movie&quot;);}</span>
+
+        finally {
+            try{
+<span class="nc bnc" id="L158" title="All 2 branches missed.">                if(statement != null ) {</span>
+<span class="nc" id="L159">                    statement.close();</span>
+                }
+<span class="nc" id="L161">                connection.commit();</span>
+<span class="nc" id="L162">                connection.close();</span>
+            }
+<span class="nc" id="L164">            catch (SQLException throwable){</span>
+<span class="nc" id="L165">                System.out.println(&quot;Can't close connection&quot;);</span>
+<span class="nc" id="L166">            }</span>
+        }
+
+<span class="nc" id="L169">        return path;</span>
+    }
+
+    @Override
+    public String getTrailer(int id){
+<span class="nc" id="L174">        Connection connection = this.getDatabaseConnection();</span>
+<span class="nc" id="L175">        String url = &quot;&quot;;</span>
+<span class="nc" id="L176">        PreparedStatement statement = null;</span>
+        try {
+<span class="nc" id="L178">            statement = connection.prepareStatement(&quot;SELECT trailer_url from trailers WHERE movie_id = ?&quot;);</span>
+<span class="nc" id="L179">            statement.setInt(1, id);</span>
+
+<span class="nc" id="L181">            ResultSet resultSet = statement.executeQuery();</span>
+<span class="nc" id="L182">            resultSet.next();</span>
+
+<span class="nc" id="L184">            url = resultSet.getString(&quot;trailer_url&quot;);</span>
+
+
+        }
+<span class="nc" id="L188">        catch (SQLException throwable) {System.out.println(&quot;Can't get trailer of movie&quot;);}</span>
+
+        finally {
+            try{
+<span class="nc bnc" id="L192" title="All 2 branches missed.">                if(statement != null ) {</span>
+<span class="nc" id="L193">                    statement.close();</span>
+                }
+<span class="nc" id="L195">                connection.commit();</span>
+<span class="nc" id="L196">                connection.close();</span>
+            }
+<span class="nc" id="L198">            catch (SQLException throwable){</span>
+<span class="nc" id="L199">                System.out.println(&quot;Can't close connection&quot;);</span>
+<span class="nc" id="L200">            }</span>
+        }
+
+<span class="nc" id="L203">        return url;</span>
+    }
+
+    @Override
+    public void addMovie(Movie movie){
+<span class="nc" id="L208">        Connection connection = this.getDatabaseConnection();</span>
+<span class="nc" id="L209">        PreparedStatement statement = null;</span>
+        try{
+<span class="nc" id="L211">            statement = connection.prepareStatement(&quot;INSERT INTO `movies` (`id`, `title`, `release_date`, `description`) VALUES (NULL, ?, ?, ?);&quot;);</span>
+<span class="nc" id="L212">            statement.setString(1, movie.getTitle());</span>
+<span class="nc" id="L213">            statement.setDate(2, movie.getReleaseDate());</span>
+<span class="nc" id="L214">            statement.setString(3, movie.getDescription());</span>
+
+<span class="nc" id="L216">            statement.executeUpdate();</span>
+
+<span class="nc" id="L218">        } catch (SQLException throwable) {}</span>
+        finally {
+            try{
+<span class="nc bnc" id="L221" title="All 2 branches missed.">                if(statement != null ) {</span>
+<span class="nc" id="L222">                    statement.close();</span>
+                }
+<span class="nc" id="L224">                connection.commit();</span>
+<span class="nc" id="L225">                connection.close();</span>
+            }
+<span class="nc" id="L227">            catch (SQLException throwable){</span>
+<span class="nc" id="L228">                System.out.println(&quot;Can't close connection&quot;);</span>
+<span class="nc" id="L229">            }</span>
+        }
+<span class="nc" id="L231">    }</span>
+
+    @Override
+    public void addTrailer(int movieId,String trailer){
+<span class="nc" id="L235">        Connection connection = this.getDatabaseConnection();</span>
+<span class="nc" id="L236">        PreparedStatement statement = null;</span>
+        try{
+<span class="nc" id="L238">            statement = connection.prepareStatement(&quot;INSERT INTO `trailers` (`id`, `movie_id`, `trailer_url`) VALUES (NULL, ?, ?);&quot;);</span>
+<span class="nc" id="L239">            statement.setInt(1, movieId);</span>
+<span class="nc" id="L240">            statement.setString(2, trailer);</span>
+
+<span class="nc" id="L242">            statement.executeUpdate();</span>
+
+<span class="nc" id="L244">        } catch (SQLException throwable) {}</span>
+        finally {
+            try{
+<span class="nc bnc" id="L247" title="All 2 branches missed.">                if(statement != null ) {</span>
+<span class="nc" id="L248">                    statement.close();</span>
+                }
+<span class="nc" id="L250">                connection.commit();</span>
+<span class="nc" id="L251">                connection.close();</span>
+            }
+<span class="nc" id="L253">            catch (SQLException throwable){</span>
+<span class="nc" id="L254">                System.out.println(&quot;Can't close connection&quot;);</span>
+<span class="nc" id="L255">            }</span>
+        }
+<span class="nc" id="L257">    }</span>
+
+    @Override
+    public void deleteMovie(int id){
+<span class="nc" id="L261">        Connection connection = this.getDatabaseConnection();</span>
+<span class="nc" id="L262">        PreparedStatement statement = null;</span>
+        try{
+<span class="nc" id="L264">            statement = connection.prepareStatement(&quot;DELETE FROM `movies` WHERE `movies`.`id` = ?&quot;);</span>
+<span class="nc" id="L265">            statement.setInt(1, id);</span>
+
+<span class="nc" id="L267">            statement.executeUpdate();</span>
+
+<span class="nc" id="L269">        } catch (SQLException throwable) {}</span>
+        finally {
+            try{
+<span class="nc bnc" id="L272" title="All 2 branches missed.">                if(statement != null ) {</span>
+<span class="nc" id="L273">                    statement.close();</span>
+                }
+<span class="nc" id="L275">                connection.commit();</span>
+<span class="nc" id="L276">                connection.close();</span>
+            }
+<span class="nc" id="L278">            catch (SQLException throwable){</span>
+<span class="nc" id="L279">                System.out.println(&quot;Can't close connection&quot;);</span>
+<span class="nc" id="L280">            }</span>
+        }
+<span class="nc" id="L282">    }</span>
+
+    @Override
+    public void deleteTrailer(int id){
+<span class="nc" id="L286">        Connection connection = this.getDatabaseConnection();</span>
+<span class="nc" id="L287">        PreparedStatement statement = null;</span>
+        try{
+<span class="nc" id="L289">            statement = connection.prepareStatement(&quot;DELETE FROM `trailers` WHERE `trailers`.`movie_id` = ?&quot;);</span>
+<span class="nc" id="L290">            statement.setInt(1, id);</span>
+
+<span class="nc" id="L292">            statement.executeUpdate();</span>
+
+<span class="nc" id="L294">        } catch (SQLException throwable) {}</span>
+        finally {
+            try{
+<span class="nc bnc" id="L297" title="All 2 branches missed.">                if(statement != null ) {</span>
+<span class="nc" id="L298">                    statement.close();</span>
+                }
+<span class="nc" id="L300">                connection.commit();</span>
+<span class="nc" id="L301">                connection.close();</span>
+            }
+<span class="nc" id="L303">            catch (SQLException throwable){</span>
+<span class="nc" id="L304">                System.out.println(&quot;Can't close connection&quot;);</span>
+<span class="nc" id="L305">            }</span>
+        }
+<span class="nc" id="L307">    }</span>
+
+    @Override
+    public void editMovie(Movie movie){
+<span class="nc" id="L311">        Connection connection = this.getDatabaseConnection();</span>
+<span class="nc" id="L312">        PreparedStatement statement = null;</span>
+        try{
+<span class="nc" id="L314">            statement = connection.prepareStatement(&quot;UPDATE `movies` SET `title` = ?, `release_date` = ?, `description` = ? WHERE `movies`.`id` = ?&quot;);</span>
+<span class="nc" id="L315">            statement.setString(1, movie.getTitle());</span>
+<span class="nc" id="L316">            statement.setDate(2, movie.getReleaseDate());</span>
+<span class="nc" id="L317">            statement.setString(3, movie.getDescription());</span>
+<span class="nc" id="L318">            statement.setInt(4, movie.getId());</span>
+
+<span class="nc" id="L320">            statement.executeUpdate();</span>
+
+<span class="nc" id="L322">        } catch (SQLException throwable) {}</span>
+        finally {
+            try{
+<span class="nc bnc" id="L325" title="All 2 branches missed.">                if(statement != null ) {</span>
+<span class="nc" id="L326">                    statement.close();</span>
+                }
+<span class="nc" id="L328">                connection.commit();</span>
+<span class="nc" id="L329">                connection.close();</span>
+            }
+<span class="nc" id="L331">            catch (SQLException throwable){</span>
+<span class="nc" id="L332">                System.out.println(&quot;Can't close connection&quot;);</span>
+<span class="nc" id="L333">            }</span>
+        }
+<span class="nc" id="L335">    }</span>
+
+    @Override
+    public void editTrailer(String url, int id){
+<span class="nc" id="L339">        Connection connection = this.getDatabaseConnection();</span>
+<span class="nc" id="L340">        PreparedStatement statement = null;</span>
+        try{
+<span class="nc" id="L342">            statement = connection.prepareStatement(&quot;UPDATE `trailers` SET `trailer_url` = ? WHERE `trailers`.`movie_id` = ?&quot;);</span>
+<span class="nc" id="L343">            statement.setString(1, url);</span>
+<span class="nc" id="L344">            statement.setInt(2, id);</span>
+
+<span class="nc" id="L346">            statement.executeUpdate();</span>
+
+<span class="nc" id="L348">        } catch (SQLException throwable) {}</span>
+        finally {
+            try{
+<span class="nc bnc" id="L351" title="All 2 branches missed.">                if(statement != null ) {</span>
+<span class="nc" id="L352">                    statement.close();</span>
+                }
+<span class="nc" id="L354">                connection.commit();</span>
+<span class="nc" id="L355">                connection.close();</span>
+            }
+<span class="nc" id="L357">            catch (SQLException throwable){</span>
+<span class="nc" id="L358">                System.out.println(&quot;Can't close connection&quot;);</span>
+<span class="nc" id="L359">            }</span>
+        }
+<span class="nc" id="L361">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

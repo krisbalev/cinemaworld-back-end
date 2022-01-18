@@ -33,8 +33,9 @@ public class UserDalJDBC extends JDBCRepository implements IUserDAL {
                 String email = resultSet.getString("email");
                 String firstName = resultSet.getString("first_name");
                 String lastName = resultSet.getString("last_name");
+                String role = resultSet.getString("role");
 
-                IUser account = new UserAccount(id, username, password,email,firstName,lastName);
+                IUser account = new UserAccount(id, username, password,email,firstName,lastName, role);
                 accounts.add(account);
             }
 
@@ -74,8 +75,9 @@ public class UserDalJDBC extends JDBCRepository implements IUserDAL {
             String email = resultSet.getString("email");
             String firstName = resultSet.getString("first_name");
             String lastName = resultSet.getString("last_name");
+            String role = resultSet.getString("role");
 
-            account = new UserAccount(accountId, username, password,email,firstName,lastName);
+            account = new UserAccount(accountId, username, password,email,firstName,lastName, role);
 
 
         } catch (SQLException throwable) {System.out.println("Can't get account by id");}
@@ -114,8 +116,9 @@ public class UserDalJDBC extends JDBCRepository implements IUserDAL {
             String email = resultSet.getString("email");
             String firstName = resultSet.getString("first_name");
             String lastName = resultSet.getString("last_name");
+            String role = resultSet.getString("role");
 
-            account = new UserAccount(accountId, accountName, password,email,firstName,lastName);
+            account = new UserAccount(accountId, accountName, password,email,firstName,lastName, role);
 
         } catch (SQLException throwable) {System.out.println("Can't get account by username");}
         finally {
@@ -140,12 +143,13 @@ public class UserDalJDBC extends JDBCRepository implements IUserDAL {
         Connection connection = this.getDatabaseConnection();
         PreparedStatement statement = null;
         try {
-            statement = connection.prepareStatement("INSERT INTO user (`ID`, `first_name`, `last_name`, `username`, `password`, `email`) VALUES (NULL, ?, ?, ?, ?, ?);");
+            statement = connection.prepareStatement("INSERT INTO user (`ID`, `first_name`, `last_name`, `username`, `password`, `email`, `role`) VALUES (NULL, ?, ?, ?, ?, ?, ?);");
             statement.setString(1, account.getFirstName());
             statement.setString(2, account.getLastName());
             statement.setString(3, account.getUsername());
             statement.setString(4, account.getPassword());
             statement.setString(5, account.getEmail());
+            statement.setString(6, account.getRole());
 
             statement.executeUpdate();
 

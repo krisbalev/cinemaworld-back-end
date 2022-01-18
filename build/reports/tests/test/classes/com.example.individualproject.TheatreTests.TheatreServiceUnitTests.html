@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - TheatreServiceUnitTests</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>TheatreServiceUnitTests</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/com.example.individualproject.TheatreTests.html">com.example.individualproject.TheatreTests</a> &gt; TheatreServiceUnitTests</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">7</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.030s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">addTheatre()</td>
+<td class="success">0.002s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">editTheatre()</td>
+<td class="success">0.003s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">removeTheatre()</td>
+<td class="success">0.009s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">returnAllTheatres()</td>
+<td class="success">0.005s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">returnAllTheatresWhenNull()</td>
+<td class="success">0.004s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">returnTheatreById()</td>
+<td class="success">0.003s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">returnTheatreByIdWhenNull()</td>
+<td class="success">0.004s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>2022-01-18 11:21:57.236  INFO 3616 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.example.individualproject.TheatreTests.TheatreServiceUnitTests], using SpringBootContextLoader
+2022-01-18 11:21:57.237  INFO 3616 --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [com.example.individualproject.TheatreTests.TheatreServiceUnitTests]: no resource found for suffixes {-context.xml, Context.groovy}.
+2022-01-18 11:21:57.238  INFO 3616 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.example.individualproject.TheatreTests.TheatreServiceUnitTests]: TheatreServiceUnitTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2022-01-18 11:21:57.239  INFO 3616 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.example.individualproject.IndividualProjectApplication for test class com.example.individualproject.TheatreTests.TheatreServiceUnitTests
+2022-01-18 11:21:57.241  INFO 3616 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener, org.springframework.security.test.context.support.ReactorContextTestExecutionListener, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+2022-01-18 11:21:57.243  INFO 3616 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@753d294, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@65ea4866, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@74f17f82, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@2277777f, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@3b29d6d7, org.springframework.test.context.support.DirtiesContextTestExecutionListener@c3700ac, org.springframework.test.context.transaction.TransactionalTestExecutionListener@73c573c7, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@6a103e4f, org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener@1ffac2b4, org.springframework.test.context.event.EventPublishingTestExecutionListener@2bfc9387, org.springframework.security.test.context.support.ReactorContextTestExecutionListener@73ff8674, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@18f62c02, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@51d0b2ca, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@1e7f73dc, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@113c8a41, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@38832258, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@6c118160]
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v2.5.4)
+
+2022-01-18 11:21:57.267  INFO 3616 --- [    Test worker] c.e.i.T.TheatreServiceUnitTests          : Starting TheatreServiceUnitTests using Java 11.0.12 on DESKTOP-J8FJ0EB with PID 3616 (started by KristiyanBalev in C:\Users\krist\OneDrive\Desktop\Solo Project\semester-3-individual-task)
+2022-01-18 11:21:57.268  INFO 3616 --- [    Test worker] c.e.i.T.TheatreServiceUnitTests          : No active profile set, falling back to default profiles: default
+2022-01-18 11:21:57.908  INFO 3616 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7fef7e0a, org.springframework.security.web.context.SecurityContextPersistenceFilter@1b5dcb54, org.springframework.security.web.header.HeaderWriterFilter@306ce490, org.springframework.web.filter.CorsFilter@6c967917, org.springframework.security.web.authentication.logout.LogoutFilter@6ea62ba4, com.example.individualproject.Filter.JWTAuthenticationFilter@47895475, com.example.individualproject.Filter.JWTAuthorizationFilter@d3cfebe, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@22655cfd, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@75fa6445, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@927de3d, org.springframework.security.web.session.SessionManagementFilter@70f3d675, org.springframework.security.web.access.ExceptionTranslationFilter@44efadd7, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@6d54f577]
+2022-01-18 11:21:58.138  INFO 3616 --- [    Test worker] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2022-01-18 11:21:58.139  INFO 3616 --- [    Test worker] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@783730cb]]
+2022-01-18 11:21:58.139  INFO 3616 --- [    Test worker] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2022-01-18 11:21:58.141  INFO 3616 --- [    Test worker] c.e.i.T.TheatreServiceUnitTests          : Started TheatreServiceUnitTests in 0.895 seconds (JVM running for 21.269)
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 7.1.1</a> at Jan 18, 2022, 11:21:59 AM</p>
+</div>
+</div>
+</body>
+</html>

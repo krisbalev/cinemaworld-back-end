@@ -54,9 +54,4 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-//    @GetMapping("oauth")
-//    public Principal auth(Principal principal) {
-//        return principal;
-//    }
-
 }

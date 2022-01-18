@@ -2,6 +2,8 @@ package com.example.individualproject.Service;
 
 import com.example.individualproject.DALInterfaces.IMovieDAL;
 import com.example.individualproject.Model.Movie;
+import com.example.individualproject.Model.request.MovieCreateRequest;
+import com.example.individualproject.Model.request.TrailerCreateRequest;
 import com.example.individualproject.ServiceInterface.IMovie;
 import com.example.individualproject.ServiceInterface.IMovieService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,4 +61,42 @@ public class MovieService implements IMovieService {
         return path;
     }
 
+    @Override
+    public String returnTrailerByMovieId(int id){
+        return this.dal.getTrailer(id);
+    }
+
+    @Override
+    public boolean addMovie(MovieCreateRequest movieCreateRequest){
+        Movie movie = new Movie(movieCreateRequest.getId(),
+                                movieCreateRequest.getTitle(),
+                                movieCreateRequest.getDescription(),
+                                movieCreateRequest.getReleaseDate());
+        this.dal.addMovie(movie);
+        return true;
+    }
+
+    @Override
+    public boolean addTrailer(TrailerCreateRequest trailerCreateRequest){
+        this.dal.addTrailer(trailerCreateRequest.getMovieId(), trailerCreateRequest.getUrl());
+        return true;
+    }
+
+    @Override
+    public boolean removeMovie(int id){
+        this.dal.deleteMovie(id);
+        this.dal.deleteTrailer(id);
+        return true;
+    }
+
+    @Override
+    public boolean editMovie(MovieCreateRequest movieCreateRequest){
+        Movie movie = new Movie(movieCreateRequest.getId(),
+                movieCreateRequest.getTitle(),
+                movieCreateRequest.getDescription(),
+                movieCreateRequest.getReleaseDate());
+        this.dal.editMovie(movie);
+        this.dal.editTrailer(movieCreateRequest.getTrailer(), movieCreateRequest.getId());
+        return true;
+    }
 }

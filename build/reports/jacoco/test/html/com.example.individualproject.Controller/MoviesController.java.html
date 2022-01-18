@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MoviesController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">IndividualProject</a> &gt; <a href="index.source.html" class="el_package">com.example.individualproject.Controller</a> &gt; <span class="el_source">MoviesController.java</span></div><h1>MoviesController.java</h1><pre class="source lang-java linenums">package com.example.individualproject.Controller;
+
+import com.example.individualproject.Model.request.MovieCreateRequest;
+import com.example.individualproject.ServiceInterface.IMovie;
+import com.example.individualproject.ServiceInterface.IMovieService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+
+@RestController
+//@CrossOrigin(&quot;http://localhost:3000&quot;)
+@CrossOrigin(origins = &quot;*&quot;, allowedHeaders = &quot;*&quot;)
+@RequestMapping(&quot;/movies&quot;)
+<span class="fc" id="L21">public class MoviesController {</span>
+
+    @Autowired
+    private IMovieService movieService;
+
+
+    @GetMapping
+    public ResponseEntity&lt;List&lt;IMovie&gt;&gt; getAllMovies() {
+<span class="fc" id="L29">       return this.movieService.returnAllMovies();</span>
+    }
+
+    @GetMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;IMovie&gt; getMovieById(@PathVariable(value = &quot;id&quot;) int id){
+<span class="fc" id="L34">        return this.movieService.returnMovieById(id);</span>
+    }
+
+    @GetMapping(&quot;/photo/{id}&quot;)
+    public ResponseEntity&lt;Resource&gt; GetPhotoMovieById(@PathVariable(value = &quot;id&quot;) int id)
+    {
+<span class="nc" id="L40">        String filename =  movieService.ReturnPhotoOfMovieByID(id);</span>
+
+<span class="nc" id="L42">        ByteArrayResource inputStream = null;</span>
+
+        try{
+<span class="nc" id="L45">            String direcotry = new File(&quot;./&quot; ).getCanonicalPath() + &quot;/photos/&quot; + filename;</span>
+
+<span class="nc" id="L47">            inputStream = new ByteArrayResource(Files.readAllBytes(Paths.get(</span>
+                    direcotry)));
+<span class="nc" id="L49">            return ResponseEntity.ok()</span>
+<span class="nc" id="L50">                    .contentLength(inputStream.contentLength())</span>
+<span class="nc" id="L51">                    .body(inputStream);</span>
+        }
+<span class="nc" id="L53">        catch (Exception e){ e.getMessage(); }</span>
+
+<span class="nc" id="L55">        return ResponseEntity.notFound().build();</span>
+
+
+    }
+
+    @GetMapping(&quot;/poster/{id}&quot;)
+    public ResponseEntity&lt;Resource&gt; GetPosterMovieById(@PathVariable(value = &quot;id&quot;) int id)
+    {
+<span class="nc" id="L63">        String filename =  movieService.ReturnPosterOfMovieByID(id);</span>
+
+<span class="nc" id="L65">        ByteArrayResource inputStream = null;</span>
+
+        try{
+<span class="nc" id="L68">            String direcotry = new File(&quot;./&quot; ).getCanonicalPath() + &quot;/photos/&quot; + filename;</span>
+
+<span class="nc" id="L70">            inputStream = new ByteArrayResource(Files.readAllBytes(Paths.get(</span>
+                    direcotry)));
+<span class="nc" id="L72">            return ResponseEntity.ok()</span>
+<span class="nc" id="L73">                    .contentLength(inputStream.contentLength())</span>
+<span class="nc" id="L74">                    .body(inputStream);</span>
+
+        }
+<span class="nc" id="L77">        catch (Exception e){ e.getMessage(); }</span>
+
+<span class="nc" id="L79">        return ResponseEntity.notFound().build();</span>
+    }
+
+    @GetMapping(&quot;/trailer/{id}&quot;)
+    public String getTrailerByMovieId(@PathVariable(value = &quot;id&quot;) int id){
+<span class="fc" id="L84">        return this.movieService.returnTrailerByMovieId(id);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

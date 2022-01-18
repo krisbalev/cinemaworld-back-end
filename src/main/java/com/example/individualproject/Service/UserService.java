@@ -76,20 +76,18 @@ public class UserService implements IUserService {
                 passwordEncoder.encode(userCreateRequest.getPassword()),
                 userCreateRequest.getEmail(),
                 userCreateRequest.getFirstName(),
-                userCreateRequest.getLastName());
+                userCreateRequest.getLastName(),
+                userCreateRequest.getRole());
         dal.addUser(user);
         return true;
     }
 
     @Override
-    public void EditUserDetails(String username, UserEditDetailsRequest userEditDetailsRequest){
+    public boolean EditUserDetails(String username, UserEditDetailsRequest userEditDetailsRequest){
         IUser user = GetUserByUsername(username);
         int id = user.getId();
 
-        try{
-            dal.editUserDetails(id, userEditDetailsRequest.getEmail(), userEditDetailsRequest.getFirstName(), userEditDetailsRequest.getLastName());
-        } catch (Exception e){
-            throw new RuntimeException("User not found.");
-        }
+        dal.editUserDetails(id, userEditDetailsRequest.getEmail(), userEditDetailsRequest.getFirstName(), userEditDetailsRequest.getLastName());
+        return true;
     }
 }

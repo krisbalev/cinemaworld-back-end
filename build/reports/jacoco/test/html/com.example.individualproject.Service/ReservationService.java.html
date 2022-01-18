@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReservationService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">IndividualProject</a> &gt; <a href="index.source.html" class="el_package">com.example.individualproject.Service</a> &gt; <span class="el_source">ReservationService.java</span></div><h1>ReservationService.java</h1><pre class="source lang-java linenums">package com.example.individualproject.Service;
+
+import com.example.individualproject.DALInterfaces.IReservationDAL;
+import com.example.individualproject.Model.Reservation;
+import com.example.individualproject.Model.request.ReservationCreateRequest;
+import com.example.individualproject.ServiceInterface.IReservation;
+import com.example.individualproject.ServiceInterface.IReservationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class ReservationService implements IReservationService {
+
+    @Autowired
+    IReservationDAL dal;
+
+<span class="fc" id="L20">    public ReservationService(IReservationDAL dal){</span>
+<span class="fc" id="L21">        this.dal = dal;</span>
+<span class="fc" id="L22">    }</span>
+
+    @Override
+    public ResponseEntity&lt;List&lt;IReservation&gt;&gt; returnAllReservations(){
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        if(dal.getAllReservations() == null){</span>
+<span class="fc" id="L27">            return ResponseEntity.notFound().build();</span>
+        } else {
+<span class="fc" id="L29">            return ResponseEntity.ok().body(dal.getAllReservations());</span>
+        }
+    }
+
+    @Override
+    public boolean reserve(String username,ReservationCreateRequest reservationCreateRequest){
+<span class="fc" id="L35">        Reservation reservation = new Reservation(reservationCreateRequest.getId(),</span>
+                                    username,
+<span class="fc" id="L37">                                    reservationCreateRequest.getMovieName(),</span>
+<span class="fc" id="L38">                                    reservationCreateRequest.getDate(),</span>
+<span class="fc" id="L39">                                    reservationCreateRequest.getTime(),</span>
+<span class="fc" id="L40">                                    reservationCreateRequest.getNumberOfTickets(),</span>
+<span class="fc" id="L41">                                    reservationCreateRequest.getTheatreName());</span>
+<span class="fc" id="L42">        dal.reserve(reservation);</span>
+<span class="fc" id="L43">        return true;</span>
+    }
+
+    @Override
+    public ResponseEntity&lt;List&lt;IReservation&gt;&gt; returnReservationsByUser(String username){
+<span class="fc bfc" id="L48" title="All 2 branches covered.">        if(dal.getReservationsByUser(username) == null){</span>
+<span class="fc" id="L49">            return ResponseEntity.notFound().build();</span>
+        } else {
+<span class="fc" id="L51">            return ResponseEntity.ok().body(dal.getReservationsByUser(username));</span>
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -18,4 +18,6 @@ public interface IUser {
 
     public String getLastName();
     public void setLastName(String lastName);
+
+    public String getRole();
 }

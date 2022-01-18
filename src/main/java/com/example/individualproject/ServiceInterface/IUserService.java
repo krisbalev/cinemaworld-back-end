@@ -11,6 +11,6 @@ public interface IUserService {
     ResponseEntity<IUser> ReturnUserByUsername(String username);
     boolean UserRegistration(UserCreateRequest userCreateRequest);
     ResponseEntity<List<IUser>>ReturnAllUsers();
-    void EditUserDetails(String username, UserEditDetailsRequest userEditDetailsRequest);
+    boolean EditUserDetails(String username, UserEditDetailsRequest userEditDetailsRequest);
 
 }

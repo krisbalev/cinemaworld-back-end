@@ -28,13 +28,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, AuthenticationConfigConstants.SIGN_UP_URL).permitAll()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 //ROLE BASED AUTHENTICATION START
-                .antMatchers("/user/*").hasAnyAuthority("USER")
+                .antMatchers("/user/*").hasAnyAuthority("USER", "ADMIN")
 //                .antMatchers("/user/*").permitAll()
+                .antMatchers("/movies/**/**").permitAll()
                 .antMatchers("/movies/**").permitAll()
-                .antMatchers("/auth/*").permitAll()
+                .antMatchers("/admin/**/**").hasAnyAuthority("ADMIN")
+                .antMatchers("/admin/**").hasAnyAuthority("ADMIN")
+
+
                 .antMatchers("/theatre/**").permitAll()
-//                .antMatchers("/reservations").permitAll() //HAS TO BE ADMIN ONLY
-                .antMatchers("/reservations/*").hasAnyAuthority("USER")
+                .antMatchers("/reservations/*").hasAnyAuthority("USER", "ADMIN")
 
 //                .antMatchers("/topic/**").permitAll()
 //                .antMatchers("/notification").permitAll()
