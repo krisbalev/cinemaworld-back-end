@@ -43,16 +43,10 @@ test {
     useJUnitPlatform()
     finalizedBy jacocoTestReport
 }
-//
-//tasks.withType(Test) {
-//    useJUnitPlatform()
-//}
 
 
 jacocoTestReport {
     reports {
         xml.enabled true
-//		csv.required = false
-//		html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
     }
 }
